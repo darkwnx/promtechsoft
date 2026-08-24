@@ -11,7 +11,6 @@ RUN mvn dependency:go-offline -B
 
 # Копируем исходный код
 COPY src ./src
-COPY frontend ./frontend
 
 # Собираем JAR (пропускаем тесты для скорости)
 RUN mvn clean package -DskipTests
