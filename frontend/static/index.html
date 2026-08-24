@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ПромТехСофт — Разработка ПО для автоматизации производств и 3D-моделирование</title>
+    <meta name="description" content="Профессиональная разработка программного обеспечения для автоматизации производств. Услуги 3D-моделирования в КОМПАС-3D и Siemens NX. Проектирование на заказ.">
+    <meta name="keywords" content="автоматизация производств, разработка ПО, 3D моделирование, КОМПАС-3D, Siemens NX, SCADA, АСУ ТП">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <meta property="og:title" content="ПромТехСофт — автоматизация производств и 3D-моделирование">
+    <meta property="og:description" content="Разработка ПО и услуги проектирования в КОМПАС-3D и Siemens NX.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://darkwnx.github.io">
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "ПромТехСофт",
+            "url": "https://darkwnx.github.io",
+            "description": "Демонстрационный сайт. Разработка ПО для автоматизации производств и услуги 3D-моделирования.",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "ул. Плехановская, д. 11",
+                "addressLocality": "Воронеж",
+                "addressCountry": "RU"
+            }
+        }
+    </script>
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110703368', 'ym');
+        ym(110703368, 'init', {clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/110703368" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+    <style>
+        :root {
+            --primary: #0a1628;
+            --accent: #00d4aa;
+            --accent-hover: #00f0c8;
+            --white: #ffffff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --text: #2d3436;
+            --text-light: #636e72;
+            --radius: 16px;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --shadow-hover: 0 20px 40px rgba(0,0,0,0.15);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--gray-50);
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        .demo-banner {
+            background: #ff6b6b;
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        /* Шапка */
+        .header {
+            background: rgba(10, 22, 40, 0.9);
+            backdrop-filter: blur(20px);
+            color: white;
+            padding: 0.8rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+        }
+
+        .header.scrolled {
+            background: rgba(10, 22, 40, 0.98);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            padding: 0.5rem 0;
+        }
+
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: white; }
+        .logo-icon { font-size: 1.8rem; color: var(--accent); }
+        .logo h1 { font-size: 1.3rem; font-weight: 800; }
+        .logo h1 span { color: var(--accent); font-weight: 300; }
+        .tagline { font-size: 0.7rem; color: var(--gray-400); letter-spacing: 1px; }
+
+        .nav-menu { display: flex; list-style: none; gap: 1.5rem; }
+        .nav-menu a { color: var(--gray-300); text-decoration: none; font-weight: 500; font-size: 0.85rem; padding: 0.4rem 0; border-bottom: 2px solid transparent; transition: var(--transition); }
+        .nav-menu a:hover, .nav-menu a.active { color: white; border-bottom-color: var(--accent); }
+
+        .burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 5px; }
+        .burger span { width: 25px; height: 2px; background: white; display: block; transition: var(--transition); }
+        .burger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .burger.active span:nth-child(2) { opacity: 0; }
+        .burger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), #1a2d47);
+            color: white;
+            padding: 8rem 0 6rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                    radial-gradient(circle at 20% 50%, rgba(0, 212, 170, 0.08) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 50%, rgba(0, 240, 200, 0.05) 0%, transparent 50%);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0, 212, 170, 0.1);
+            color: var(--accent);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(0, 212, 170, 0.2);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .hero h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, var(--accent), #00ffcc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--gray-300);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--gray-400);
+        }
+
+        section { padding: 4rem 0; }
+
+        /* Кнопки */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
+        }
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 212, 170, 0.4);
+        }
+
+        .btn-outline {
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            background: transparent;
+        }
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-dark {
+            border: 2px solid var(--gray-300);
+            color: var(--text);
+            background: transparent;
+        }
+        .btn-outline-dark:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Заголовки секций */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header .badge {
+            margin-bottom: 1rem;
+            background: rgba(0, 212, 170, 0.08);
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .section-header p {
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Услуги */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--gray-200);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), #00ffcc);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .service-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+        }
+
+        .service-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .service-features {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            list-style: none;
+        }
+
+        .service-features li {
+            background: var(--gray-100);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Клиенты */
+        .clients-section {
+            background: white;
+        }
+
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .client-card {
+            background: var(--gray-50);
+            padding: 2rem;
+            border-radius: var(--radius);
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--gray-200);
+        }
+
+        .client-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            background: white;
+        }
+
+        .client-logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--primary), #1a2d47);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+            color: white;
+        }
+
+        .client-name {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .client-industry {
+            color: var(--accent);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .client-work {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .clients-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .client-stat {
+            text-align: center;
+        }
+
+        .client-stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+            display: block;
+        }
+
+        .client-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Преимущества */
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .advantage-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .advantage-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .advantage-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .advantage-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .advantage-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Проекты на главной */
+        .projects-preview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .project-preview-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+        }
+
+        .project-preview-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .project-preview-header {
+            padding: 2rem 2rem 0;
+        }
+
+        .project-preview-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .project-preview-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-preview-desc {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            padding: 0 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-preview-results {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0 2rem 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .preview-result {
+            background: rgba(0, 212, 170, 0.1);
+            color: #00b894;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Блог на главной */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--gray-200);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .blog-card-image {
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            background: linear-gradient(135deg, var(--primary), #1a2d47);
+            color: rgba(255,255,255,0.2);
+        }
+
+        .blog-card-content {
+            padding: 1.5rem;
+        }
+
+        .blog-card-date {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .blog-card h3 {
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+            color: var(--primary);
+        }
+
+        .blog-card p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .blog-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, var(--primary), #1a2d47);
+            color: white;
+            text-align: center;
+            padding: 4rem 0;
+            border-radius: var(--radius);
+        }
+
+        .cta h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            color: var(--gray-300);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Футер */
+        .footer {
+            background: #051024;
+            color: var(--gray-400);
+            padding: 4rem 0 1rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .footer-col p, .footer-col a {
+            color: var(--gray-400);
+            font-size: 0.85rem;
+            text-decoration: none;
+            line-height: 2;
+        }
+
+        .footer-col a:hover { color: var(--accent); }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.85rem;
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .scroll-top.visible { opacity: 1; pointer-events: all; }
+
+        .text-center { text-align: center; }
+
+        @media (max-width: 768px) {
+            .burger { display: flex; }
+            .nav-menu {
+                display: none;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: var(--primary);
+                flex-direction: column;
+                padding: 2rem;
+                text-align: center;
+                gap: 1rem;
+                z-index: 1000;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            }
+            .nav-menu.active { display: flex; }
+            .hero { padding: 6rem 0 4rem; }
+            .hero h2 { font-size: 1.8rem; }
+            .hero-stats { gap: 1.5rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .advantages-grid { grid-template-columns: 1fr; }
+            .projects-preview { grid-template-columns: 1fr; }
+            .blog-grid { grid-template-columns: 1fr; }
+            .clients-stats { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .clients-grid { grid-template-columns: 1fr; }
+            .clients-stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<header class="header" id="header">
+    <div class="container">
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">◇</span>
+                <div>
+                    <h1>Пром<span>Тех</span>Софт</h1>
+                    <p class="tagline">Инженерные решения</p>
+                </div>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="active">Главная</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="projects.html">Проекты</a></li>
+                <li><a href="blog.html">Блог</a></li>
+                <li><a href="about.html">О компании</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+            </ul>
+            <button class="burger" id="burger" aria-label="Меню">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <span class="badge">🚀 Ведущий разработчик промышленного ПО</span>
+            <h2>Создаём будущее <span class="highlight">промышленности</span> сегодня</h2>
+            <p>Разрабатываем ПО для автоматизации производств любой сложности. Проектируем в <strong>КОМПАС-3D</strong> и <strong>Siemens NX</strong> с ювелирной точностью.</p>
+            <div class="hero-buttons">
+                <a href="contacts.html" class="btn btn-primary">Обсудить проект →</a>
+                <a href="services.html" class="btn btn-outline">Наши услуги ↓</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-value">10+</span>
+                    <span class="stat-label">лет опыта</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">200+</span>
+                    <span class="stat-label">проектов</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">50+</span>
+                    <span class="stat-label">клиентов</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">24</span>
+                    <span class="stat-label">специалиста</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Услуги -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">⚡ Что мы предлагаем</span>
+                <h2>Наши услуги</h2>
+                <p>Полный цикл промышленной разработки: от анализа задачи до технической поддержки</p>
+            </div>
+            <div class="services-grid">
+                <article class="service-card">
+                    <span class="service-icon">⚙️</span>
+                    <h3>Автоматизация производств</h3>
+                    <p>SCADA-системы, АСУ ТП, MES-системы. Интеграция с ПЛК Siemens, Allen-Bradley, OMRON.</p>
+                    <ul class="service-features">
+                        <li>SCADA</li>
+                        <li>АСУ ТП</li>
+                        <li>MES</li>
+                        <li>IIoT</li>
+                    </ul>
+                    <a href="services.html#automation" class="btn btn-outline-dark">Подробнее →</a>
+                </article>
+                <article class="service-card">
+                    <span class="service-icon">📐</span>
+                    <h3>3D-моделирование в КОМПАС-3D</h3>
+                    <p>Параметрическое моделирование, чертежи ЕСКД, спецификации, реверс-инжиниринг.</p>
+                    <ul class="service-features">
+                        <li>3D-модели</li>
+                        <li>Чертежи ЕСКД</li>
+                        <li>Спецификации</li>
+                        <li>Сборки</li>
+                    </ul>
+                    <a href="services.html#kompas" class="btn btn-outline-dark">Подробнее →</a>
+                </article>
+                <article class="service-card">
+                    <span class="service-icon">🔷</span>
+                    <h3>Проектирование в Siemens NX</h3>
+                    <p>Поверхностное моделирование, ЧПУ (5 осей), инженерный анализ конструкций.</p>
+                    <ul class="service-features">
+                        <li>ЧПУ 5 осей</li>
+                        <li>CAE-анализ</li>
+                        <li>Поверхности</li>
+                        <li>Постпроцессоры</li>
+                    </ul>
+                    <a href="services.html#nx" class="btn btn-outline-dark">Подробнее →</a>
+                </article>
+                <article class="service-card">
+                    <span class="service-icon">💻</span>
+                    <h3>Разработка ПО на заказ</h3>
+                    <p>Веб-системы, десктопные приложения, интеграция с 1С и промышленным оборудованием.</p>
+                    <ul class="service-features">
+                        <li>Веб-системы</li>
+                        <li>Десктоп ПО</li>
+                        <li>Интеграция 1С</li>
+                        <li>API</li>
+                    </ul>
+                    <a href="services.html#custom" class="btn btn-outline-dark">Подробнее →</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Клиенты -->
+    <section class="clients-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">🏢 Наши клиенты</span>
+                <h2>Кому мы помогаем</h2>
+                <p>Более 50 компаний из разных отраслей доверили нам автоматизацию и проектирование</p>
+            </div>
+            <div class="clients-grid">
+                <div class="client-card">
+                    <div class="client-logo">🏭</div>
+                    <div class="client-name">ОАО "Воронежский машиностроительный завод"</div>
+                    <div class="client-industry">Машиностроение</div>
+                    <div class="client-work">SCADA-система для 150+ станков. Мониторинг и диспетчеризация.</div>
+                </div>
+                <div class="client-card">
+                    <div class="client-logo">✈️</div>
+                    <div class="client-name">АО "Авиационные технологии"</div>
+                    <div class="client-industry">Авиастроение</div>
+                    <div class="client-work">Проектирование компонентов двигателя в Siemens NX.</div>
+                </div>
+                <div class="client-card">
+                    <div class="client-logo">📦</div>
+                    <div class="client-name">ООО "ЛогистикПром"</div>
+                    <div class="client-industry">Логистика</div>
+                    <div class="client-work">WMS-система с интеграцией в 1С. Автоматизация склада.</div>
+                </div>
+                <div class="client-card">
+                    <div class="client-logo">⛽</div>
+                    <div class="client-name">ПАО "Нефтехим"</div>
+                    <div class="client-industry">Нефтепереработка</div>
+                    <div class="client-work">АСУ ТП для нефтеперерабатывающего завода. 500+ точек контроля.</div>
+                </div>
+                <div class="client-card">
+                    <div class="client-logo">🔧</div>
+                    <div class="client-name">ЗАО "Промдеталь"</div>
+                    <div class="client-industry">Металлообработка</div>
+                    <div class="client-work">Реверс-инжиниринг 30+ деталей в КОМПАС-3D.</div>
+                </div>
+                <div class="client-card">
+                    <div class="client-logo">🍞</div>
+                    <div class="client-name">ООО "Пищевик"</div>
+                    <div class="client-industry">Пищевая промышленность</div>
+                    <div class="client-work">MES-система. Отслеживание от сырья до готовой продукции.</div>
+                </div>
+            </div>
+            <div class="clients-stats">
+                <div class="client-stat">
+                    <span class="client-stat-value">50+</span>
+                    <span class="client-stat-label">Постоянных клиентов</span>
+                </div>
+                <div class="client-stat">
+                    <span class="client-stat-value">10</span>
+                    <span class="client-stat-label">Отраслей</span>
+                </div>
+                <div class="client-stat">
+                    <span class="client-stat-value">98%</span>
+                    <span class="client-stat-label">Сдано в срок</span>
+                </div>
+                <div class="client-stat">
+                    <span class="client-stat-value">85%</span>
+                    <span class="client-stat-label">Обращаются повторно</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Преимущества -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">💎 Почему выбирают нас</span>
+                <h2>Ключевые преимущества</h2>
+                <p>Что отличает нас от конкурентов</p>
+            </div>
+            <div class="advantages-grid">
+                <div class="advantage-card">
+                    <span class="advantage-icon">🎓</span>
+                    <h3>Сертифицированные специалисты</h3>
+                    <p>Все инженеры имеют сертификаты АСКОН и Siemens. Минимум 5 лет опыта в промышленной разработке.</p>
+                </div>
+                <div class="advantage-card">
+                    <span class="advantage-icon">⚡</span>
+                    <h3>Соблюдение сроков</h3>
+                    <p>98% проектов сдаём точно в срок. Фиксируем сроки в договоре и несём за них ответственность.</p>
+                </div>
+                <div class="advantage-card">
+                    <span class="advantage-icon">🛡️</span>
+                    <h3>Гарантия 12 месяцев</h3>
+                    <p>Бесплатное устранение дефектов в течение года после сдачи проекта. Техподдержка 24/7.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Проекты -->
+    <section style="background: white;">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">📂 Последние проекты</span>
+                <h2>Реальные кейсы</h2>
+                <p>Примеры задач, которые мы решили для наших клиентов</p>
+            </div>
+            <div class="projects-preview">
+                <div class="project-preview-card">
+                    <div class="project-preview-header">
+                        <div class="project-preview-icon">🏭</div>
+                        <div class="project-preview-title">SCADA для 150+ станков</div>
+                    </div>
+                    <p class="project-preview-desc">Система мониторинга и диспетчеризации для машиностроительного завода.</p>
+                    <div class="project-preview-results">
+                        <span class="preview-result">↑40% производительность</span>
+                        <span class="preview-result">↓25% простои</span>
+                    </div>
+                </div>
+                <div class="project-preview-card">
+                    <div class="project-preview-header">
+                        <div class="project-preview-icon">✈️</div>
+                        <div class="project-preview-title">Авиадвигатель в Siemens NX</div>
+                    </div>
+                    <p class="project-preview-desc">50+ чертежей ЕСКД с точностью до 0.001 мм для авиационного двигателя.</p>
+                    <div class="project-preview-results">
+                        <span class="preview-result">Точность 0.001 мм</span>
+                        <span class="preview-result">50+ чертежей</span>
+                    </div>
+                </div>
+                <div class="project-preview-card">
+                    <div class="project-preview-header">
+                        <div class="project-preview-icon">📦</div>
+                        <div class="project-preview-title">WMS с интеграцией 1С</div>
+                    </div>
+                    <p class="project-preview-desc">Автоматизация склада: приёмка, хранение, отгрузка. Интеграция с 1С.</p>
+                    <div class="project-preview-results">
+                        <span class="preview-result">↑60% скорость</span>
+                        <span class="preview-result">0 ошибок</span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 2rem;">
+                <a href="projects.html" class="btn btn-outline-dark">Все проекты →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блог -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">📝 Полезные материалы</span>
+                <h2>Блог</h2>
+                <p>Статьи о промышленной автоматизации и 3D-моделировании</p>
+            </div>
+            <div class="blog-grid">
+                <article class="blog-card">
+                    <div class="blog-card-image">📊</div>
+                    <div class="blog-card-content">
+                        <span class="blog-card-date">12 марта 2024</span>
+                        <h3>Тренды промышленной автоматизации 2024</h3>
+                        <p>Industrial IoT, цифровые двойники, предиктивная аналитика и ИИ в промышленности.</p>
+                        <a href="blog.html" class="blog-link">Читать →</a>
+                    </div>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-card-image">🔧</div>
+                    <div class="blog-card-content">
+                        <span class="blog-card-date">5 марта 2024</span>
+                        <h3>КОМПАС-3D vs Siemens NX</h3>
+                        <p>Детальное сравнение двух CAD-систем: стоимость, функционал, кривая обучения.</p>
+                        <a href="blog.html" class="blog-link">Читать →</a>
+                    </div>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-card-image">🤖</div>
+                    <div class="blog-card-content">
+                        <span class="blog-card-date">28 февраля 2024</span>
+                        <h3>Цифровые двойники производства</h3>
+                        <p>Как виртуальные модели помогают оптимизировать реальные процессы и сокращать издержки.</p>
+                        <a href="blog.html" class="blog-link">Читать →</a>
+                    </div>
+                </article>
+            </div>
+            <div class="text-center" style="margin-top: 2rem;">
+                <a href="blog.html" class="btn btn-outline-dark">Все статьи →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section>
+        <div class="container">
+            <div class="cta">
+                <h2>Готовы начать проект?</h2>
+                <p>Свяжитесь с нами сегодня — мы предложим оптимальное решение для вашего производства</p>
+                <div class="cta-buttons">
+                    <a href="contacts.html" class="btn btn-primary">Обсудить проект →</a>
+                    <a href="tel:+79304019362" class="btn btn-outline">📞 Позвонить сейчас</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>ПромТехСофт</h4>
+                <p>Разработка ПО для автоматизации производств и 3D-моделирование с 2014 года. Сертифицированные специалисты КОМПАС-3D и Siemens NX.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Услуги</h4>
+                <p><a href="services.html">Автоматизация</a></p>
+                <p><a href="services.html">КОМПАС-3D</a></p>
+                <p><a href="services.html">Siemens NX</a></p>
+                <p><a href="services.html">ПО на заказ</a></p>
+            </div>
+            <div class="footer-col">
+                <h4>Компания</h4>
+                <p><a href="about.html">О нас</a></p>
+                <p><a href="projects.html">Проекты</a></p>
+                <p><a href="blog.html">Блог</a></p>
+                <p><a href="contacts.html">Контакты</a></p>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <p>📍 Воронеж, Плехановская, 11</p>
+                <p>📞 +7 (930) 401-93-62</p>
+                <p>✉️ info@promtechsoft.ru</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 <strong>ПромТехСофт</strong>. Демонстрационный сайт.</p>
+        </div>
+    </div>
+</footer>
+
+<div style="background: #ff6b6b; color: white; text-align: center; padding: 0.5rem; font-size: 0.85rem;">
+    ⚠️ Демонстрационный сайт. Компания не является реальным юридическим лицом. Учебный проект.
+</div>
+
+<button class="scroll-top" id="scrollTop" aria-label="Наверх">↑</button>
+
+<script>
+    // Бургер-меню
+    const burger = document.getElementById('burger');
+    const navMenu = document.getElementById('navMenu');
+
+    burger.addEventListener('click', () => {
+        burger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            burger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+
+    // Шапка при скролле
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Кнопка наверх
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+        scrollTopBtn.classList.toggle('visible', window.scrollY > 500);
+    });
+
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Анимации появления
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+</script>
+</body>
+</html>

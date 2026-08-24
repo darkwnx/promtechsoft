@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты - ПромТехСофт | Свяжитесь с нами</title>
+    <meta name="description" content="Свяжитесь с ПромТехСофт в Воронеже для заказа разработки ПО или 3D-моделирования. Адрес, телефон, email, режим работы.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="animations.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110703368', 'ym');
+        ym(110703368, 'init', {clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/110703368" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #0a1628;
+            --accent: #00d4aa;
+            --accent-hover: #00f0c8;
+            --white: #ffffff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --text: #2d3436;
+            --text-light: #636e72;
+            --radius: 16px;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --shadow-hover: 0 20px 40px rgba(0,0,0,0.15);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--gray-50);
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        .demo-banner {
+            background: #ff6b6b;
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .header {
+            background: rgba(10, 22, 40, 0.95);
+            backdrop-filter: blur(20px);
+            color: white;
+            padding: 0.8rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: white; }
+        .logo-icon { font-size: 1.8rem; color: var(--accent); }
+        .logo h1 { font-size: 1.3rem; font-weight: 800; }
+        .logo h1 span { color: var(--accent); font-weight: 300; }
+        .tagline { font-size: 0.7rem; color: var(--gray-400); letter-spacing: 1px; }
+
+        .nav-menu { display: flex; list-style: none; gap: 1.5rem; }
+        .nav-menu a { color: var(--gray-300); text-decoration: none; font-weight: 500; font-size: 0.85rem; padding: 0.4rem 0; border-bottom: 2px solid transparent; transition: var(--transition); }
+        .nav-menu a:hover, .nav-menu a.active { color: white; border-bottom-color: var(--accent); }
+
+        .burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 5px; }
+        .burger span { width: 25px; height: 2px; background: white; display: block; transition: var(--transition); }
+        .burger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .burger.active span:nth-child(2) { opacity: 0; }
+        .burger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* СУПЕР-КОМПАКТНЫЙ HERO */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary), #1a2d47);
+            color: white;
+            padding: 1.8rem 0 1.5rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .page-header p {
+            color: var(--gray-400);
+            font-size: 0.85rem;
+        }
+
+        section { padding: 2rem 0; }
+
+        /* Карточки контактов */
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 1.8rem;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+        }
+
+        .contact-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+        .contact-card-icon { font-size: 2.2rem; display: block; margin-bottom: 0.6rem; }
+        .contact-card h3 { color: var(--primary); margin-bottom: 0.6rem; font-size: 1.05rem; }
+        .contact-card p { color: var(--text-light); font-size: 0.9rem; }
+        .contact-card a { color: var(--accent); text-decoration: none; font-weight: 500; transition: var(--transition); }
+        .contact-card a:hover { color: var(--accent-hover); }
+
+        /* Дополнительная информация */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-card {
+            background: white;
+            padding: 1.8rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+
+        .info-card h3 {
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            padding: 0.7rem 0;
+            border-bottom: 1px solid var(--gray-100);
+            color: var(--text-light);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+        }
+
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .info-list li::before {
+            content: '✓';
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-list strong {
+            color: var(--text);
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        /* Блок с реквизитами */
+        .requisites {
+            background: white;
+            padding: 1.8rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 1.5rem;
+        }
+
+        .requisites h3 {
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .requisites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.8rem;
+        }
+
+        .requisite-item {
+            padding: 0.7rem;
+            background: var(--gray-50);
+            border-radius: 8px;
+        }
+
+        .requisite-label {
+            font-size: 0.7rem;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.2rem;
+        }
+
+        .requisite-value {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
+        .map-wrapper { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); margin-bottom: 1.5rem; }
+        #yandexMap { width: 100%; height: 400px; }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary), #1a2d47);
+            padding: 2.5rem 0;
+            text-align: center;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        .cta-section h2 { font-size: 1.6rem; margin-bottom: 0.6rem; }
+        .cta-section p { color: var(--gray-300); margin-bottom: 1.2rem; font-size: 0.9rem; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
+        }
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 212, 170, 0.4);
+        }
+
+        .btn-outline {
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            background: transparent;
+        }
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+            transform: translateY(-2px);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Плавающее окно "Срочный звонок" */
+        .urgent-call {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            z-index: 998;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.8rem;
+        }
+
+        .urgent-call-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+            border: none;
+            cursor: pointer;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
+            transition: all 0.3s ease;
+            animation: urgentPulse 2s infinite;
+        }
+
+        .urgent-call-btn:hover {
+            transform: scale(1.1);
+            animation: none;
+            box-shadow: 0 12px 35px rgba(255, 71, 87, 0.6);
+        }
+
+        @keyframes urgentPulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 71, 87, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+        }
+
+        .urgent-call-tooltip {
+            background: white;
+            padding: 1rem 1.3rem;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            min-width: 200px;
+            animation: tooltipIn 0.4s ease-out;
+            display: none;
+            position: relative;
+        }
+
+        .urgent-call-tooltip.show {
+            display: block;
+        }
+
+        @keyframes tooltipIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .urgent-call-tooltip .tooltip-title {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 0.4rem;
+        }
+
+        .urgent-call-tooltip .tooltip-phone {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #ff4757;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.2rem;
+            transition: var(--transition);
+        }
+
+        .urgent-call-tooltip .tooltip-phone:hover {
+            color: #ff2d3b;
+        }
+
+        .urgent-call-tooltip .tooltip-note {
+            font-size: 0.7rem;
+            color: var(--gray-500);
+        }
+
+        .urgent-call-tooltip .tooltip-close {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: var(--gray-400);
+            transition: var(--transition);
+            line-height: 1;
+        }
+
+        .urgent-call-tooltip .tooltip-close:hover {
+            color: var(--text);
+        }
+
+        /* МОДАЛЬНОЕ ОКНО */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 22, 40, 0.9);
+            backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-overlay.closing {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 640px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.7) translateY(40px);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+            opacity 0.3s ease;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            margin: auto;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .modal-overlay.closing .modal {
+            transform: scale(0.7) translateY(40px);
+            opacity: 0;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            flex-shrink: 0;
+        }
+
+        .modal-header h3 { font-size: 1.1rem; color: var(--primary); }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--gray-200);
+            background: white;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: var(--gray-500);
+        }
+
+        .modal-close:hover {
+            background: #ff4757;
+            color: white;
+            border-color: #ff4757;
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            flex-grow: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            position: relative;
+            min-height: 400px;
+        }
+
+        .modal-body iframe {
+            display: block;
+            width: 100%;
+            height: 65vh;
+            min-height: 500px;
+            border: none;
+        }
+
+        /* АНИМАЦИЯ УСПЕШНОЙ ОТПРАВКИ */
+        .success-animation {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            z-index: 10;
+            border-radius: 24px;
+        }
+
+        .success-animation.show {
+            display: flex;
+            animation: successContainerIn 0.5s ease-out;
+        }
+
+        @keyframes successContainerIn {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .success-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #00d4aa, #00f0c8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            animation: iconPopIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.2s both;
+        }
+
+        @keyframes iconPopIn {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .success-icon svg {
+            width: 45px;
+            height: 45px;
+            stroke: white;
+            stroke-width: 3;
+            fill: none;
+        }
+
+        .success-icon svg polyline {
+            stroke-dasharray: 50;
+            stroke-dashoffset: 50;
+            animation: drawCheck 0.5s ease-out 0.6s forwards;
+        }
+
+        @keyframes drawCheck {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .success-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUpFadeIn 0.5s ease-out 0.8s forwards;
+        }
+
+        .success-message {
+            font-size: 1rem;
+            color: var(--text-light);
+            max-width: 400px;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUpFadeIn 0.5s ease-out 1s forwards;
+        }
+
+        @keyframes slideUpFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .success-close-btn {
+            margin-top: 2rem;
+            padding: 0.7rem 2rem;
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUpFadeIn 0.5s ease-out 1.2s forwards;
+            font-family: inherit;
+        }
+
+        .success-close-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(0, 212, 170, 0.4);
+        }
+
+        /* Футер */
+        .footer { background: #051024; color: var(--gray-400); padding: 2.5rem 0 1rem; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        .footer-col h4 { color: white; margin-bottom: 0.8rem; font-size: 0.95rem; }
+        .footer-col p { font-size: 0.85rem; }
+        .footer-bottom { text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem; }
+
+        .scroll-top {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 50px; height: 50px;
+            background: var(--accent); color: var(--primary);
+            border: none; border-radius: 50%;
+            font-size: 1.5rem; cursor: pointer;
+            opacity: 0; pointer-events: none;
+            transition: var(--transition); z-index: 997;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+        }
+
+        .scroll-top.visible { opacity: 1; pointer-events: all; }
+
+        @media (max-width: 768px) {
+            .burger { display: flex; }
+            .nav-menu { display: none; position: fixed; top: 60px; left: 0; right: 0; background: var(--primary); flex-direction: column; padding: 2rem; text-align: center; gap: 1rem; z-index: 1000; }
+            .nav-menu.active { display: flex; }
+            .page-header { padding: 1.5rem 0 1.2rem; }
+            .page-header h1 { font-size: 1.3rem; }
+            .page-header p { font-size: 0.8rem; }
+            .contact-cards { grid-template-columns: repeat(2, 1fr); }
+            .info-grid { grid-template-columns: 1fr; }
+            .requisites-grid { grid-template-columns: repeat(2, 1fr); }
+            .modal { max-width: 100%; max-height: 95vh; }
+            .modal-body iframe { height: 70vh; }
+            .success-title { font-size: 1.4rem; }
+            .success-icon { width: 75px; height: 75px; }
+            .urgent-call { bottom: 90px; right: 20px; }
+            .urgent-call-btn { width: 55px; height: 55px; font-size: 1.5rem; }
+            .cta-section h2 { font-size: 1.4rem; }
+            .cta-section { padding: 2rem 0; }
+        }
+
+        @media (max-width: 480px) {
+            .contact-cards { grid-template-columns: 1fr; }
+            .requisites-grid { grid-template-columns: 1fr; }
+            .urgent-call { bottom: 80px; right: 15px; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+<header class="header" id="header">
+    <div class="container">
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">◇</span>
+                <div>
+                    <h1>Пром<span>Тех</span>Софт</h1>
+                    <p class="tagline">Инженерные решения</p>
+                </div>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="projects.html">Проекты</a></li>
+                <li><a href="blog.html">Блог</a></li>
+                <li><a href="about.html">О компании</a></li>
+                <li><a href="contacts.html" class="active">Контакты</a></li>
+            </ul>
+            <button class="burger" id="burger" aria-label="Меню">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="demo-banner">
+        ⚠️ Демонстрационный сайт. Компания не является реальным юридическим лицом. Учебный проект.
+    </div>
+
+    <!-- СУПЕР-КОМПАКТНЫЙ ЗАГОЛОВОК -->
+    <div class="page-header">
+        <div class="container">
+            <h1>📞 Контакты</h1>
+            <p>Обсудим ваш проект и найдем оптимальное решение</p>
+        </div>
+    </div>
+
+    <!-- Основные контакты -->
+    <section>
+        <div class="container">
+            <div class="contact-cards">
+                <div class="contact-card">
+                    <span class="contact-card-icon">📍</span>
+                    <h3>Адрес офиса</h3>
+                    <p>г. Воронеж, ул. Плехановская, д. 11, офис 305</p>
+                </div>
+                <div class="contact-card">
+                    <span class="contact-card-icon">📞</span>
+                    <h3>Телефон</h3>
+                    <p><a href="tel:+79304019362">+7 (930) 401-93-62</a></p>
+                    <p style="font-size:0.8rem; margin-top:0.3rem;">Звонки принимаем с 9:00 до 18:00</p>
+                </div>
+                <div class="contact-card">
+                    <span class="contact-card-icon">✉️</span>
+                    <h3>Email</h3>
+                    <p><a href="mailto:info@promtechsoft.ru">info@promtechsoft.ru</a></p>
+                    <p style="font-size:0.8rem; margin-top:0.3rem;">Отвечаем в течение 2 часов</p>
+                </div>
+                <div class="contact-card">
+                    <span class="contact-card-icon">🕐</span>
+                    <h3>Режим работы</h3>
+                    <p>Пн–Пт: 9:00 – 18:00</p>
+                    <p style="font-size:0.8rem; margin-top:0.3rem;">Сб–Вс: выходной</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Дополнительная информация -->
+    <section style="padding-top: 0;">
+        <div class="container">
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🚗 Как добраться</h3>
+                    <ul class="info-list">
+                        <li>
+                            <div>
+                                <strong>На автомобиле</strong>
+                                Центральный район, съезд с ул. Плехановской. Парковка со стороны ул. Свободы (бесплатно для клиентов)
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <strong>Общественным транспортом</strong>
+                                Остановка "Плехановская" — автобусы 5, 18, 26, 69. Вход со стороны главной улицы, 3 этаж
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <strong>Ориентиры</strong>
+                                Бизнес-центр "Плехановский", рядом с ТЦ "Галерея Чижова". Вывеска "ПромТехСофт" на фасаде
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>❓ Часто спрашивают</h3>
+                    <ul class="info-list">
+                        <li>
+                            <div>
+                                <strong>Как быстро вы отвечаете?</strong>
+                                На email — в течение 2 часов в рабочее время. По телефону отвечаем сразу
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <strong>Нужно ли приезжать в офис?</strong>
+                                Большинство проектов мы ведём удалённо. Достаточно созвона или видеоконференции
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <strong>Работаете ли вы с НДС?</strong>
+                                Да, работаем с НДС. Заключаем официальный договор. Предоставляем все закрывающие документы
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Реквизиты -->
+    <section style="padding-top: 0;">
+        <div class="container">
+            <div class="requisites">
+                <h3>📄 Реквизиты компании</h3>
+                <div class="requisites-grid">
+                    <div class="requisite-item">
+                        <div class="requisite-label">Полное название</div>
+                        <div class="requisite-value">ООО "ПромТехСофт"</div>
+                    </div>
+                    <div class="requisite-item">
+                        <div class="requisite-label">ИНН</div>
+                        <div class="requisite-value">3666123456</div>
+                    </div>
+                    <div class="requisite-item">
+                        <div class="requisite-label">КПП</div>
+                        <div class="requisite-value">366601001</div>
+                    </div>
+                    <div class="requisite-item">
+                        <div class="requisite-label">ОГРН</div>
+                        <div class="requisite-value">1143668012345</div>
+                    </div>
+                    <div class="requisite-item">
+                        <div class="requisite-label">Юридический адрес</div>
+                        <div class="requisite-value">394018, г. Воронеж, ул. Плехановская, д. 11, офис 305</div>
+                    </div>
+                    <div class="requisite-item">
+                        <div class="requisite-label">Банк</div>
+                        <div class="requisite-value">ПАО "Сбербанк", г. Воронеж</div>
+                    </div>
+                    <div class="requisite-item">
+                        <div class="requisite-label">БИК</div>
+                        <div class="requisite-value">042007681</div>
+                    </div>
+                    <div class="requisite-item">
+                        <div class="requisite-label">Расчётный счёт</div>
+                        <div class="requisite-value">40702810413000012345</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Карта -->
+    <section style="padding-top: 0;">
+        <div class="container">
+            <div class="map-wrapper">
+                <div id="yandexMap"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="padding-top: 0;">
+        <div class="container">
+            <div class="cta-section">
+                <h2>Готовы обсудить проект?</h2>
+                <p>Оставьте заявку или позвоните нам — предложим оптимальное решение для вашего производства</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary" onclick="openFormModal()">
+                        ✍️ Оставить заявку
+                    </button>
+                    <a href="tel:+79304019362" class="btn btn-outline">
+                        📞 Позвонить сейчас
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- МОДАЛЬНОЕ ОКНО -->
+<div class="modal-overlay" id="formModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modalTitle">📋 Заполните заявку</h3>
+            <button class="modal-close" onclick="closeFormModal()">✕</button>
+        </div>
+        <div class="modal-body" id="modalBody">
+            <div class="success-animation" id="successAnimation">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <div class="success-title">Заявка отправлена! 🎉</div>
+                <div class="success-message">
+                    Спасибо за обращение! Мы свяжемся с вами в ближайшее время для обсуждения проекта.
+                </div>
+                <button class="success-close-btn" onclick="closeFormModal()">
+                    Отлично
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ПЛАВАЮЩЕЕ ОКНО "СРОЧНЫЙ ЗВОНОК" -->
+<div class="urgent-call" id="urgentCall">
+    <div class="urgent-call-tooltip" id="urgentTooltip">
+        <button class="tooltip-close" onclick="closeUrgentTooltip()">✕</button>
+        <div class="tooltip-title">⚠️ Срочный вопрос?</div>
+        <a href="tel:+79304019362" class="tooltip-phone">+7 (930) 401-93-62</a>
+        <div class="tooltip-note">Звоните, мы на связи!</div>
+    </div>
+    <button class="urgent-call-btn" onclick="toggleUrgentTooltip()" aria-label="Срочный звонок">
+        📞
+    </button>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>ПромТехСофт</h4>
+                <p>Разработка ПО и 3D-моделирование с 2014 года. Сертифицированные специалисты КОМПАС-3D и Siemens NX.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <p>📍 Воронеж, Плехановская, 11, офис 305</p>
+                <p>📞 +7 (930) 401-93-62</p>
+                <p>✉️ info@promtechsoft.ru</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 <strong>ПромТехСофт</strong>. Демонстрационный сайт.</p>
+        </div>
+    </div>
+</footer>
+
+<button class="scroll-top" id="scrollTop" aria-label="Наверх">↑</button>
+
+<script src="https://api-maps.yandex.ru/2.1/?apikey=ef835738-e8f3-4b3b-853a-b0b6c0dcfc47&lang=ru_RU" type="text/javascript"></script>
+
+<script>
+    const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSecd_2opjvhv7uQhgDBlAlqW1Lt7-i7pumOCbQkP0hyyz7czQ/viewform?embedded=true';
+
+    function initMap() {
+        var myMap = new ymaps.Map("yandexMap", {
+            center: [51.660781, 39.200296],
+            zoom: 16,
+            controls: ['zoomControl', 'fullscreenControl']
+        });
+
+        var myPlacemark = new ymaps.Placemark(
+            [51.660781, 39.200296],
+            {
+                hintContent: 'ПромТехСофт',
+                balloonContent: '<div style="padding:10px;"><strong>ПромТехСофт</strong><br>📍 Воронеж, Плехановская, 11, офис 305<br>📞 +7 (930) 401-93-62</div>'
+            },
+            {
+                iconLayout: 'default#image',
+                iconImageHref: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="40" height="50"><path d="M20 0C8.95 0 0 8.95 0 20c0 15 20 30 20 30s20-15 20-30C40 8.95 31.05 0 20 0z" fill="#00d4aa" stroke="#0a1628" stroke-width="2"/><circle cx="20" cy="20" r="8" fill="white"/></svg>'),
+                iconImageSize: [40, 50],
+                iconImageOffset: [-20, -50]
+            }
+        );
+
+        myMap.geoObjects.add(myPlacemark);
+    }
+
+    ymaps.ready(initMap);
+
+    function openFormModal() {
+        const modal = document.getElementById('formModal');
+        const modalBody = document.getElementById('modalBody');
+        const successAnimation = document.getElementById('successAnimation');
+        const modalTitle = document.getElementById('modalTitle');
+
+        modal.classList.remove('closing');
+        successAnimation.classList.remove('show');
+        modalTitle.textContent = '📋 Заполните заявку';
+
+        const existingIframe = modalBody.querySelector('iframe');
+        if (existingIframe) {
+            existingIframe.remove();
+        }
+
+        const iframe = document.createElement('iframe');
+        iframe.id = 'googleFormFrame';
+        iframe.src = FORM_URL;
+        iframe.style.width = '100%';
+        iframe.style.height = '65vh';
+        iframe.style.minHeight = '500px';
+        iframe.style.border = 'none';
+        iframe.style.display = 'block';
+        iframe.style.opacity = '1';
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allowfullscreen', 'true');
+
+        modalBody.insertBefore(iframe, successAnimation);
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        startFormSubmitDetection(iframe);
+    }
+
+    function closeFormModal() {
+        const modal = document.getElementById('formModal');
+        modal.classList.add('closing');
+        modal.classList.remove('active');
+
+        setTimeout(() => {
+            modal.classList.remove('closing');
+            document.body.style.overflow = '';
+            const successAnimation = document.getElementById('successAnimation');
+            successAnimation.classList.remove('show');
+            const modalTitle = document.getElementById('modalTitle');
+            modalTitle.textContent = '📋 Заполните заявку';
+            const iframe = document.getElementById('googleFormFrame');
+            if (iframe) {
+                iframe.style.display = 'block';
+                iframe.style.opacity = '1';
+            }
+        }, 400);
+    }
+
+    function startFormSubmitDetection(iframe) {
+        let checkCount = 0;
+        const maxChecks = 120;
+
+        const checkInterval = setInterval(() => {
+            checkCount++;
+            try {
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                const confirmationText = iframeDoc.body.innerText || iframeDoc.body.textContent;
+
+                if (
+                    confirmationText.includes('Ответ отправлен') ||
+                    confirmationText.includes('Спасибо') ||
+                    confirmationText.includes('Ответ записан') ||
+                    confirmationText.includes('Your response has been recorded') ||
+                    confirmationText.includes('Благодарим за ответ') ||
+                    confirmationText.includes('Ответ получен')
+                ) {
+                    clearInterval(checkInterval);
+                    showSuccessAnimation();
+                }
+
+                try {
+                    const iframeUrl = iframe.contentWindow.location.href;
+                    if (iframeUrl.includes('formResponse') || iframeUrl.includes('submitted')) {
+                        clearInterval(checkInterval);
+                        showSuccessAnimation();
+                    }
+                } catch (e) {}
+            } catch (e) {}
+
+            if (checkCount >= maxChecks) clearInterval(checkInterval);
+        }, 1000);
+
+        iframe.addEventListener('load', function() {
+            setTimeout(() => {
+                try {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    const confirmationText = iframeDoc.body.innerText || iframeDoc.body.textContent;
+
+                    if (
+                        confirmationText.includes('Ответ отправлен') ||
+                        confirmationText.includes('Спасибо') ||
+                        confirmationText.includes('Ответ записан') ||
+                        confirmationText.includes('Your response has been recorded') ||
+                        confirmationText.includes('Благодарим за ответ') ||
+                        confirmationText.includes('Ответ получен')
+                    ) {
+                        clearInterval(checkInterval);
+                        showSuccessAnimation();
+                    }
+                } catch (e) {}
+            }, 500);
+        });
+    }
+
+    function showSuccessAnimation() {
+        const modalTitle = document.getElementById('modalTitle');
+        const successAnimation = document.getElementById('successAnimation');
+        const iframe = document.getElementById('googleFormFrame');
+
+        if (iframe) {
+            iframe.style.transition = 'opacity 0.3s ease';
+            iframe.style.opacity = '0';
+            setTimeout(() => { iframe.style.display = 'none'; }, 300);
+        }
+
+        modalTitle.textContent = '✅ Заявка подана';
+        successAnimation.classList.add('show');
+
+        setTimeout(() => { closeFormModal(); }, 5000);
+    }
+
+    document.getElementById('formModal').addEventListener('click', function(e) {
+        if (e.target === this) closeFormModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('formModal');
+            if (modal.classList.contains('active')) closeFormModal();
+        }
+    });
+
+    function toggleUrgentTooltip() {
+        const tooltip = document.getElementById('urgentTooltip');
+        tooltip.classList.toggle('show');
+
+        if (tooltip.classList.contains('show')) {
+            setTimeout(() => {
+                tooltip.classList.remove('show');
+            }, 8000);
+        }
+    }
+
+    function closeUrgentTooltip() {
+        const tooltip = document.getElementById('urgentTooltip');
+        tooltip.classList.remove('show');
+    }
+
+    setTimeout(() => {
+        const tooltip = document.getElementById('urgentTooltip');
+        if (!tooltip.classList.contains('show')) {
+            tooltip.classList.add('show');
+            setTimeout(() => {
+                tooltip.classList.remove('show');
+            }, 8000);
+        }
+    }, 3000);
+
+    const burger = document.getElementById('burger');
+    const navMenu = document.getElementById('navMenu');
+
+    burger.addEventListener('click', () => {
+        burger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            burger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+        scrollTopBtn.classList.toggle('visible', window.scrollY > 500);
+    });
+
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+</script>
+</body>
+</html>

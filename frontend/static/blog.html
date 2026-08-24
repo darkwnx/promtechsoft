@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Блог - ПромТехСофт | Статьи об автоматизации и 3D-моделировании</title>
+    <meta name="description" content="Блог компании ПромТехСофт: экспертные статьи о промышленной автоматизации, 3D-моделировании в КОМПАС-3D и Siemens NX, разработке ПО. Советы, кейсы и новости.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110703368', 'ym');
+        ym(110703368, 'init', {clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/110703368" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+    <style>
+        /* Базовые стили */
+        :root {
+            --primary: #0a1628;
+            --accent: #00d4aa;
+            --white: #ffffff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --text: #2d3436;
+            --text-light: #636e72;
+            --radius: 16px;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--gray-50);
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        .demo-banner {
+            background: #ff6b6b;
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        /* Шапка */
+        .header {
+            background: rgba(10, 22, 40, 0.95);
+            backdrop-filter: blur(20px);
+            color: white;
+            padding: 0.8rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: white; }
+        .logo-icon { font-size: 1.8rem; color: var(--accent); }
+        .logo h1 { font-size: 1.3rem; font-weight: 800; }
+        .logo h1 span { color: var(--accent); font-weight: 300; }
+        .tagline { font-size: 0.7rem; color: var(--gray-400); letter-spacing: 1px; }
+
+        .nav-menu { display: flex; list-style: none; gap: 1.5rem; }
+        .nav-menu a { color: var(--gray-300); text-decoration: none; font-weight: 500; font-size: 0.85rem; padding: 0.4rem 0; border-bottom: 2px solid transparent; transition: var(--transition); }
+        .nav-menu a:hover, .nav-menu a.active { color: white; border-bottom-color: var(--accent); }
+
+        .burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 5px; }
+        .burger span { width: 25px; height: 2px; background: white; display: block; transition: var(--transition); }
+        .burger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .burger.active span:nth-child(2) { opacity: 0; }
+        .burger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* Компактный заголовок страницы */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary), #1a2d47);
+            color: white;
+            padding: 2rem 0 1.8rem;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0, 212, 170, 0.1);
+            color: var(--accent);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 0.6rem;
+            border: 1px solid rgba(0, 212, 170, 0.2);
+        }
+
+        .page-header h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.3rem; }
+        .page-header p { color: var(--gray-300); font-size: 0.9rem; }
+
+        /* Поиск и фильтры */
+        .blog-controls {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 2.8rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1rem;
+            color: var(--gray-400);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.2rem;
+            border: 2px solid var(--gray-200);
+            background: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            font-family: inherit;
+            white-space: nowrap;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+            border-color: var(--accent);
+        }
+
+        /* Сетка блога */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+
+        .blog-card-header {
+            padding: 1.8rem 1.8rem 0;
+        }
+
+        .blog-meta {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .blog-date {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .blog-read-time {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .blog-category {
+            display: inline-block;
+            padding: 0.25rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .category-automation { background: rgba(0, 212, 170, 0.1); color: #00b894; }
+        .category-modeling { background: rgba(9, 132, 227, 0.1); color: #0984e3; }
+        .category-software { background: rgba(253, 121, 168, 0.1); color: #e84393; }
+        .category-security { background: rgba(255, 118, 117, 0.1); color: #d63031; }
+
+        .blog-card h3 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .blog-preview {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            padding: 0 1.8rem;
+            flex-grow: 1;
+        }
+
+        .blog-full-content {
+            display: none;
+            padding: 0 1.8rem;
+            color: var(--text);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .blog-full-content.expanded {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .blog-full-content h4 {
+            color: var(--primary);
+            margin: 1.2rem 0 0.6rem;
+            font-size: 1.05rem;
+        }
+
+        .blog-full-content ul {
+            list-style: none;
+            margin: 0.8rem 0;
+        }
+
+        .blog-full-content ul li {
+            padding: 0.4rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .blog-full-content ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .blog-full-content .highlight-box {
+            background: var(--gray-50);
+            border-left: 3px solid var(--accent);
+            padding: 1rem 1.2rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .blog-card-footer {
+            padding: 1.2rem 1.8rem 1.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .blog-tags {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .blog-tag {
+            font-size: 0.7rem;
+            color: var(--gray-500);
+            background: var(--gray-100);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+        }
+
+        .read-more-btn {
+            background: none;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 0.5rem 1.3rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            font-family: inherit;
+            white-space: nowrap;
+        }
+
+        .read-more-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .read-more-btn.active {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            grid-column: 1 / -1;
+        }
+
+        .no-results h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .no-results p {
+            color: var(--text-light);
+        }
+
+        /* Подписка */
+        .subscribe-section {
+            background: linear-gradient(135deg, var(--primary), #1a2d47);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+        }
+
+        .subscribe-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .subscribe-section p {
+            color: var(--gray-300);
+            margin-bottom: 1.5rem;
+        }
+
+        .subscribe-form {
+            display: flex;
+            gap: 0.8rem;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .subscribe-form input {
+            flex: 1;
+            min-width: 250px;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+
+        .subscribe-form button {
+            padding: 0.8rem 2rem;
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .subscribe-form button:hover {
+            background: #00f0c8;
+            transform: translateY(-2px);
+        }
+
+        /* Футер */
+        .footer { background: #051024; color: var(--gray-400); padding: 3rem 0 1rem; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2.5rem; }
+        .footer-col h4 { color: white; margin-bottom: 0.8rem; font-size: 0.95rem; }
+        .footer-col p { font-size: 0.85rem; }
+        .footer-bottom { text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem; }
+
+        .scroll-top {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 50px; height: 50px;
+            background: var(--accent); color: var(--primary);
+            border: none; border-radius: 50%;
+            font-size: 1.5rem; cursor: pointer;
+            opacity: 0; pointer-events: none;
+            transition: var(--transition); z-index: 999;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+        }
+
+        .scroll-top.visible { opacity: 1; pointer-events: all; }
+
+        @media (max-width: 768px) {
+            .burger { display: flex; }
+            .nav-menu { display: none; position: fixed; top: 60px; left: 0; right: 0; background: var(--primary); flex-direction: column; padding: 2rem; text-align: center; gap: 1rem; z-index: 1000; }
+            .nav-menu.active { display: flex; }
+            .blog-grid { grid-template-columns: 1fr; }
+            .blog-controls { flex-direction: column; align-items: stretch; }
+            .filter-buttons { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+<header class="header" id="header">
+    <div class="container">
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">◇</span>
+                <div>
+                    <h1>Пром<span>Тех</span>Софт</h1>
+                    <p class="tagline">Инженерные решения</p>
+                </div>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="projects.html">Проекты</a></li>
+                <li><a href="blog.html" class="active">Блог</a></li>
+                <li><a href="about.html">О компании</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+            </ul>
+            <button class="burger" id="burger" aria-label="Меню">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="demo-banner">
+        ⚠️ Демонстрационный сайт. Компания не является реальным юридическим лицом. Учебный проект.
+    </div>
+
+    <section class="page-header">
+        <div class="container">
+            <span class="badge">📝 Полезные материалы</span>
+            <h2>Блог</h2>
+            <p>Экспертные статьи, кейсы и новости из мира промышленной автоматизации и 3D-моделирования</p>
+        </div>
+    </section>
+
+    <!-- Поиск и фильтры -->
+    <div class="container">
+        <div class="blog-controls">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="blogSearch" placeholder="Поиск по статьям...">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Все статьи</button>
+                <button class="filter-btn" data-filter="automation">Автоматизация</button>
+                <button class="filter-btn" data-filter="modeling">3D-моделирование</button>
+                <button class="filter-btn" data-filter="software">Разработка ПО</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Сетка блога -->
+    <div class="container">
+        <div class="blog-grid" id="blogGrid">
+
+            <!-- Статья 1 -->
+            <article class="blog-card" data-category="automation" data-tags="тренды iot 2024">
+                <div class="blog-card-header">
+                    <div class="blog-meta">
+                        <span class="blog-date">📅 12 марта 2024</span>
+                        <span class="blog-read-time">⏱ 6 мин</span>
+                        <span class="blog-category category-automation">Автоматизация</span>
+                    </div>
+                    <h3>Тренды промышленной автоматизации 2024: что ждёт отрасль</h3>
+                </div>
+                <div class="blog-preview">
+                    <p>Industrial IoT, цифровые двойники, предиктивная аналитика и ИИ меняют промышленность. Разбираем ключевые технологии.</p>
+                </div>
+                <div class="blog-full-content" id="content1">
+                    <h4>🌐 Industrial IoT (IIoT)</h4>
+                    <p>Промышленный интернет вещей становится стандартом. В 2024 году более 60% производств внедряют IoT-решения для:</p>
+                    <ul>
+                        <li>Мониторинга состояния оборудования в реальном времени</li>
+                        <li>Предиктивного обслуживания (снижение простоев на 35%)</li>
+                        <li>Оптимизации энергопотребления</li>
+                    </ul>
+
+                    <h4>🤖 Искусственный интеллект</h4>
+                    <p>ИИ переходит от экспериментов к реальному внедрению. Основные применения:</p>
+                    <ul>
+                        <li>Контроль качества продукции (точность 99.7%)</li>
+                        <li>Оптимизация производственных цепочек</li>
+                        <li>Прогнозирование спроса</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        💡 <strong>Ключевой вывод:</strong> Предприятия, внедрившие IIoT и ИИ, в среднем повышают эффективность на 40% и снижают издержки на 25%.
+                    </div>
+                </div>
+                <div class="blog-card-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">IIoT</span>
+                        <span class="blog-tag">ИИ</span>
+                        <span class="blog-tag">Тренды 2024</span>
+                    </div>
+                    <button class="read-more-btn" onclick="toggleArticle('content1', this)">Читать далее →</button>
+                </div>
+            </article>
+
+            <!-- Статья 2 -->
+            <article class="blog-card" data-category="modeling" data-tags="компас siemens сравнение cad">
+                <div class="blog-card-header">
+                    <div class="blog-meta">
+                        <span class="blog-date">📅 5 марта 2024</span>
+                        <span class="blog-read-time">⏱ 8 мин</span>
+                        <span class="blog-category category-modeling">3D-моделирование</span>
+                    </div>
+                    <h3>КОМПАС-3D vs Siemens NX: детальное сравнение для инженера</h3>
+                </div>
+                <div class="blog-preview">
+                    <p>Подробный разбор двух CAD-систем: стоимость, функционал, кривая обучения. Помогаем сделать осознанный выбор.</p>
+                </div>
+                <div class="blog-full-content" id="content2">
+                    <h4>💰 Стоимость владения</h4>
+                    <ul>
+                        <li><strong>КОМПАС-3D:</strong> от 110 000 ₽ (бессрочная лицензия)</li>
+                        <li><strong>Siemens NX:</strong> от 800 000 ₽/год (подписка)</li>
+                    </ul>
+
+                    <h4>⚙️ Функциональные возможности</h4>
+                    <p><strong>КОМПАС-3D</strong> — отлично подходит для:</p>
+                    <ul>
+                        <li>Машиностроительного проектирования</li>
+                        <li>Оформления документации по ЕСКД</li>
+                        <li>Несложного поверхностного моделирования</li>
+                    </ul>
+                    <p><strong>Siemens NX</strong> — выбор для:</p>
+                    <ul>
+                        <li>Сложного поверхностного моделирования</li>
+                        <li>Подготовки управляющих программ для ЧПУ</li>
+                        <li>Инженерного анализа (CAE)</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        📊 <strong>Наш опыт:</strong> Для 80% задач машиностроения КОМПАС-3D полностью перекрывает потребности. Siemens NX необходим для аэрокосмоса, автомобилестроения и сложной оснастки.
+                    </div>
+                </div>
+                <div class="blog-card-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">КОМПАС-3D</span>
+                        <span class="blog-tag">Siemens NX</span>
+                        <span class="blog-tag">Сравнение</span>
+                    </div>
+                    <button class="read-more-btn" onclick="toggleArticle('content2', this)">Читать далее →</button>
+                </div>
+            </article>
+
+            <!-- Статья 3 -->
+            <article class="blog-card" data-category="software" data-tags="mes системы производство">
+                <div class="blog-card-header">
+                    <div class="blog-meta">
+                        <span class="blog-date">📅 28 февраля 2024</span>
+                        <span class="blog-read-time">⏱ 5 мин</span>
+                        <span class="blog-category category-software">Разработка ПО</span>
+                    </div>
+                    <h3>MES-системы: зачем они нужны и как мы их создаём</h3>
+                </div>
+                <div class="blog-preview">
+                    <p>Manufacturing Execution System — ядро цифрового производства. Объясняем простыми словами и показываем наш подход к разработке.</p>
+                </div>
+                <div class="blog-full-content" id="content3">
+                    <h4>📋 Что такое MES простыми словами</h4>
+                    <p>MES — это система, которая управляет производством в реальном времени. Если ERP отвечает на вопрос "что и когда производить", то MES — "как именно это делается прямо сейчас".</p>
+
+                    <h4>🔧 Наш подход к разработке</h4>
+                    <ul>
+                        <li><strong>Анализ:</strong> 2-3 недели на изучение процессов</li>
+                        <li><strong>Прототип:</strong> MVP за 1-2 месяца</li>
+                        <li><strong>Интеграция:</strong> С существующей ERP и оборудованием</li>
+                        <li><strong>Обучение:</strong> Полный цикл обучения персонала</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        💪 <strong>Результат одного из проектов:</strong> Внедрение MES на пищевом производстве сократило время простоя на 40% и увеличило выпуск продукции на 25% за первые 3 месяца.
+                    </div>
+                </div>
+                <div class="blog-card-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">MES</span>
+                        <span class="blog-tag">Производство</span>
+                        <span class="blog-tag">Кейс</span>
+                    </div>
+                    <button class="read-more-btn" onclick="toggleArticle('content3', this)">Читать далее →</button>
+                </div>
+            </article>
+
+            <!-- Статья 4 -->
+            <article class="blog-card" data-category="automation" data-tags="scada асу тп внедрение">
+                <div class="blog-card-header">
+                    <div class="blog-meta">
+                        <span class="blog-date">📅 20 февраля 2024</span>
+                        <span class="blog-read-time">⏱ 7 мин</span>
+                        <span class="blog-category category-automation">Автоматизация</span>
+                    </div>
+                    <h3>Как мы внедрили SCADA за 3 месяца: реальный кейс</h3>
+                </div>
+                <div class="blog-preview">
+                    <p>Пошаговый разбор проекта для машиностроительного завода: от аудита до запуска системы мониторинга 150+ станков.</p>
+                </div>
+                <div class="blog-full-content" id="content4">
+                    <h4>🎯 Задача клиента</h4>
+                    <p>Машиностроительный завод с 150+ станками ЧПУ. Проблемы:</p>
+                    <ul>
+                        <li>Отсутствие централизованного мониторинга</li>
+                        <li>Простои из-за несвоевременного обслуживания</li>
+                        <li>Потеря данных о работе оборудования</li>
+                    </ul>
+
+                    <h4>📈 Решение и результаты</h4>
+                    <p>За 3 месяца мы:</p>
+                    <ul>
+                        <li>Подключили все станки к единой SCADA-системе</li>
+                        <li>Настроили алерты при отклонениях</li>
+                        <li>Интегрировали с существующей ERP</li>
+                    </ul>
+                    <p><strong>Результат:</strong> производительность выросла на 40%, простои сократились на 25%.</p>
+                </div>
+                <div class="blog-card-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">SCADA</span>
+                        <span class="blog-tag">Кейс</span>
+                        <span class="blog-tag">Внедрение</span>
+                    </div>
+                    <button class="read-more-btn" onclick="toggleArticle('content4', this)">Читать далее →</button>
+                </div>
+            </article>
+
+            <!-- Статья 5 -->
+            <article class="blog-card" data-category="modeling" data-tags="компас ошибки советы">
+                <div class="blog-card-header">
+                    <div class="blog-meta">
+                        <span class="blog-date">📅 15 февраля 2024</span>
+                        <span class="blog-read-time">⏱ 4 мин</span>
+                        <span class="blog-category category-modeling">3D-моделирование</span>
+                    </div>
+                    <h3>Топ-5 ошибок при 3D-моделировании в КОМПАС-3D</h3>
+                </div>
+                <div class="blog-preview">
+                    <p>Разбираем типичные ошибки начинающих инженеров и способы их избежать. Советы от сертифицированных специалистов.</p>
+                </div>
+                <div class="blog-full-content" id="content5">
+                    <h4>❌ Ошибка №1: Отсутствие структуры дерева модели</h4>
+                    <p>Хаотичное построение приводит к проблемам при редактировании. <strong>Решение:</strong> группируйте элементы по функциональному назначению.</p>
+
+                    <h4>❌ Ошибка №2: Игнорирование параметризации</h4>
+                    <p>Создание "глухих" размеров вместо параметрических связей. <strong>Решение:</strong> используйте переменные и уравнения.</p>
+
+                    <h4>❌ Ошибка №3: Избыточная детализация</h4>
+                    <p>Моделирование мельчайших фасок и скруглений на ранних этапах. <strong>Решение:</strong> детализируйте финальную версию.</p>
+                </div>
+                <div class="blog-card-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">КОМПАС-3D</span>
+                        <span class="blog-tag">Советы</span>
+                        <span class="blog-tag">Обучение</span>
+                    </div>
+                    <button class="read-more-btn" onclick="toggleArticle('content5', this)">Читать далее →</button>
+                </div>
+            </article>
+
+            <!-- Статья 6 -->
+            <article class="blog-card" data-category="software" data-tags="python c++ разработка">
+                <div class="blog-card-header">
+                    <div class="blog-meta">
+                        <span class="blog-date">📅 1 февраля 2024</span>
+                        <span class="blog-read-time">⏱ 6 мин</span>
+                        <span class="blog-category category-software">Разработка ПО</span>
+                    </div>
+                    <h3>Стек технологий для промышленной разработки: наш выбор</h3>
+                </div>
+                <div class="blog-preview">
+                    <p>Какие языки и фреймворки мы используем для создания надёжного промышленного ПО и почему.</p>
+                </div>
+                <div class="blog-full-content" id="content6">
+                    <h4>🔧 Backend</h4>
+                    <ul>
+                        <li><strong>Python:</strong> быстрая разработка, интеграция с оборудованием</li>
+                        <li><strong>C++:</strong> высоконагруженные системы реального времени</li>
+                    </ul>
+
+                    <h4>🖥 Frontend</h4>
+                    <ul>
+                        <li><strong>React:</strong> для веб-интерфейсов SCADA</li>
+                        <li><strong>Qt:</strong> для десктопных приложений</li>
+                    </ul>
+
+                    <h4>🗄 Базы данных</h4>
+                    <ul>
+                        <li><strong>PostgreSQL:</strong> основная БД</li>
+                        <li><strong>InfluxDB:</strong> для временных рядов с датчиков</li>
+                    </ul>
+                </div>
+                <div class="blog-card-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">Python</span>
+                        <span class="blog-tag">C++</span>
+                        <span class="blog-tag">Стек</span>
+                    </div>
+                    <button class="read-more-btn" onclick="toggleArticle('content6', this)">Читать далее →</button>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- Сообщение при отсутствии результатов -->
+        <div class="no-results" id="noResults" style="display: none;">
+            <h3>🔍 Ничего не найдено</h3>
+            <p>Попробуйте изменить поисковый запрос или фильтр</p>
+        </div>
+    </div>
+
+    <!-- Подписка -->
+    <section>
+        <div class="container">
+            <div class="subscribe-section">
+                <h2>📬 Подпишитесь на обновления</h2>
+                <p>Получайте новые статьи и кейсы первыми. Никакого спама — только полезный контент раз в неделю.</p>
+                <form class="subscribe-form" onsubmit="handleSubscribe(event)">
+                    <input type="email" placeholder="Введите ваш email" required>
+                    <button type="submit">Подписаться</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>ПромТехСофт</h4>
+                <p>Разработка ПО и 3D-моделирование с 2014 года.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <p>📍 Воронеж, Плехановская, 11</p>
+                <p>📞 +7 (930) 401-93-62</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 <strong>ПромТехСофт</strong>. Демонстрационный сайт.</p>
+        </div>
+    </div>
+</footer>
+
+<div style="background: #ff6b6b; color: white; text-align: center; padding: 0.5rem; font-size: 0.85rem;">
+    ⚠️ Демонстрационный сайт. Компания не является реальным юридическим лицом. Учебный проект.
+</div>
+
+<button class="scroll-top" id="scrollTop" aria-label="Наверх">↑</button>
+
+<script>
+    // Раскрытие статьи
+    function toggleArticle(contentId, btn) {
+        const content = document.getElementById(contentId);
+        const allContents = document.querySelectorAll('.blog-full-content');
+        const allButtons = document.querySelectorAll('.read-more-btn');
+
+        // Закрываем все остальные статьи
+        allContents.forEach(c => {
+            if (c.id !== contentId) {
+                c.classList.remove('expanded');
+            }
+        });
+
+        allButtons.forEach(b => {
+            if (b !== btn) {
+                b.textContent = 'Читать далее →';
+                b.classList.remove('active');
+            }
+        });
+
+        // Переключаем текущую
+        if (content.classList.contains('expanded')) {
+            content.classList.remove('expanded');
+            btn.textContent = 'Читать далее →';
+            btn.classList.remove('active');
+        } else {
+            content.classList.add('expanded');
+            btn.textContent = 'Свернуть ↑';
+            btn.classList.add('active');
+        }
+    }
+
+    // Фильтрация
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            filterArticles();
+        });
+    });
+
+    // Поиск
+    document.getElementById('blogSearch').addEventListener('input', filterArticles);
+
+    function filterArticles() {
+        const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+        const searchTerm = document.getElementById('blogSearch').value.toLowerCase();
+        const articles = document.querySelectorAll('.blog-card');
+        let visibleCount = 0;
+
+        articles.forEach(article => {
+            const category = article.dataset.category;
+            const tags = article.dataset.tags;
+            const title = article.querySelector('h3').textContent.toLowerCase();
+            const preview = article.querySelector('.blog-preview').textContent.toLowerCase();
+
+            const matchesFilter = activeFilter === 'all' || category === activeFilter;
+            const matchesSearch = searchTerm === '' ||
+                title.includes(searchTerm) ||
+                preview.includes(searchTerm) ||
+                tags.includes(searchTerm);
+
+            if (matchesFilter && matchesSearch) {
+                article.style.display = '';
+                visibleCount++;
+            } else {
+                article.style.display = 'none';
+            }
+        });
+
+        // Показываем/скрываем сообщение об отсутствии результатов
+        const noResults = document.getElementById('noResults');
+        if (visibleCount === 0) {
+            noResults.style.display = 'block';
+        } else {
+            noResults.style.display = 'none';
+        }
+    }
+
+    // Подписка
+    function handleSubscribe(e) {
+        e.preventDefault();
+        const email = e.target.querySelector('input').value;
+        alert('Спасибо за подписку! Мы будем присылать новые статьи на ' + email);
+        e.target.reset();
+    }
+
+    // Бургер-меню
+    const burger = document.getElementById('burger');
+    const navMenu = document.getElementById('navMenu');
+
+    burger.addEventListener('click', () => {
+        burger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            burger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+
+    // Кнопка наверх
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+        scrollTopBtn.classList.toggle('visible', window.scrollY > 500);
+    });
+
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+</script>
+</body>
+</html>

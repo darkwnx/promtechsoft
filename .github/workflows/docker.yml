@@ -1,0 +1,30 @@
+name: Docker Build
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    name: Build Docker Image
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build JAR
+        run: mvn clean package -DskipTests
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: docker build -t promtechsoft:latest .

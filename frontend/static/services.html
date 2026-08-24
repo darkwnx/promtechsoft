@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Услуги - ПромТехСофт | Автоматизация, 3D-моделирование, разработка ПО</title>
+    <meta name="description" content="Услуги ПромТехСофт: автоматизация производств (SCADA, АСУ ТП, MES), 3D-моделирование в КОМПАС-3D и Siemens NX, разработка ПО на заказ. Полный цикл работ.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110703368', 'ym');
+        ym(110703368, 'init', {clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/110703368" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+    <style>
+        :root {
+            --primary: #0a1628;
+            --accent: #00d4aa;
+            --accent-hover: #00f0c8;
+            --white: #ffffff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --text: #2d3436;
+            --text-light: #636e72;
+            --radius: 16px;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --shadow-hover: 0 20px 40px rgba(0,0,0,0.15);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--gray-50);
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        .demo-banner {
+            background: #ff6b6b;
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        /* Шапка */
+        .header {
+            background: rgba(10, 22, 40, 0.95);
+            backdrop-filter: blur(20px);
+            color: white;
+            padding: 0.8rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: white; }
+        .logo-icon { font-size: 1.8rem; color: var(--accent); }
+        .logo h1 { font-size: 1.3rem; font-weight: 800; }
+        .logo h1 span { color: var(--accent); font-weight: 300; }
+        .tagline { font-size: 0.7rem; color: var(--gray-400); letter-spacing: 1px; }
+
+        .nav-menu { display: flex; list-style: none; gap: 1.5rem; }
+        .nav-menu a { color: var(--gray-300); text-decoration: none; font-weight: 500; font-size: 0.85rem; padding: 0.4rem 0; border-bottom: 2px solid transparent; transition: var(--transition); }
+        .nav-menu a:hover, .nav-menu a.active { color: white; border-bottom-color: var(--accent); }
+
+        .burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 5px; }
+        .burger span { width: 25px; height: 2px; background: white; display: block; transition: var(--transition); }
+        .burger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .burger.active span:nth-child(2) { opacity: 0; }
+        .burger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* Hero */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary), #1a2d47);
+            color: white;
+            padding: 2rem 0 1.8rem;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0, 212, 170, 0.1);
+            color: var(--accent);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 0.6rem;
+            border: 1px solid rgba(0, 212, 170, 0.2);
+        }
+
+        .page-header h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.3rem; }
+        .page-header p { color: var(--gray-300); font-size: 0.9rem; max-width: 600px; margin: 0 auto; }
+
+        section { padding: 2.5rem 0; }
+
+        /* Секция услуги */
+        .service-section {
+            background: white;
+            border-radius: var(--radius);
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .service-section:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .service-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .service-icon-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .icon-automation { background: rgba(0, 212, 170, 0.1); }
+        .icon-kompas { background: rgba(9, 132, 227, 0.1); }
+        .icon-siemens { background: rgba(253, 121, 168, 0.1); }
+        .icon-software { background: rgba(255, 165, 2, 0.1); }
+
+        .service-title-block h3 {
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .service-title-block p {
+            color: var(--text-light);
+            font-size: 1rem;
+            max-width: 800px;
+        }
+
+        .service-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .service-detail-card {
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .service-detail-card h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .service-detail-card ul {
+            list-style: none;
+        }
+
+        .service-detail-card ul li {
+            padding: 0.5rem 0 0.5rem 1.5rem;
+            position: relative;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .service-detail-card ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .tech-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .tech-tag {
+            background: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            font-weight: 500;
+            border: 1px solid var(--gray-200);
+        }
+
+        .service-benefits {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .benefit-item {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .benefit-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .benefit-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+        }
+
+        .benefit-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* Процесс работы */
+        .process-section {
+            text-align: center;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .process-step {
+            background: white;
+            padding: 2rem 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .process-step:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin: 0 auto 1rem;
+        }
+
+        .process-step h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .process-step p {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .process-arrow {
+            display: none;
+        }
+
+        /* Сравнение технологий */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .comparison-table th {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--gray-100);
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .check {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* FAQ */
+        .faq-item {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem 2rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .faq-item:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .faq-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            color: var(--accent);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, margin-top 0.4s ease;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            margin-top: 1rem;
+        }
+
+        /* Калькулятор */
+        .calculator {
+            background: linear-gradient(135deg, var(--primary), #1a2d47);
+            color: white;
+            padding: 3rem;
+            border-radius: var(--radius);
+            text-align: center;
+        }
+
+        .calculator h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .calculator p {
+            color: var(--gray-300);
+            margin-bottom: 2rem;
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .calc-item {
+            text-align: left;
+        }
+
+        .calc-item label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .calc-item select,
+        .calc-item input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+
+        .calc-item select option {
+            background: var(--primary);
+            color: white;
+        }
+
+        .calc-result {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .calc-note {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
+        }
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 212, 170, 0.4);
+        }
+
+        .btn-outline {
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            background: transparent;
+        }
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+
+        .cta {
+            text-align: center;
+            padding: 3rem 0;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .cta h2 { font-size: 1.8rem; color: var(--primary); margin-bottom: 0.8rem; }
+        .cta p { color: var(--text-light); margin-bottom: 1.5rem; }
+
+        /* Футер */
+        .footer { background: #051024; color: var(--gray-400); padding: 3rem 0 1rem; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2.5rem; }
+        .footer-col h4 { color: white; margin-bottom: 0.8rem; font-size: 0.95rem; }
+        .footer-col p, .footer-col a { font-size: 0.85rem; color: var(--gray-400); text-decoration: none; }
+        .footer-col a:hover { color: var(--accent); }
+        .footer-bottom { text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem; }
+
+        .scroll-top {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 50px; height: 50px;
+            background: var(--accent); color: var(--primary);
+            border: none; border-radius: 50%;
+            font-size: 1.5rem; cursor: pointer;
+            opacity: 0; pointer-events: none;
+            transition: var(--transition); z-index: 999;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+        }
+
+        .scroll-top.visible { opacity: 1; pointer-events: all; }
+
+        .highlight-box {
+            background: rgba(0, 212, 170, 0.05);
+            border-left: 3px solid var(--accent);
+            padding: 1rem 1.2rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .burger { display: flex; }
+            .nav-menu { display: none; position: fixed; top: 60px; left: 0; right: 0; background: var(--primary); flex-direction: column; padding: 2rem; text-align: center; gap: 1rem; z-index: 1000; }
+            .nav-menu.active { display: flex; }
+            .service-section { padding: 2rem; }
+            .service-details-grid { grid-template-columns: 1fr; }
+            .service-benefits { grid-template-columns: repeat(2, 1fr); }
+            .process-grid { grid-template-columns: repeat(2, 1fr); }
+            .calc-grid { grid-template-columns: 1fr; }
+            .service-header { flex-direction: column; align-items: center; text-align: center; }
+        }
+
+        @media (max-width: 480px) {
+            .service-benefits { grid-template-columns: 1fr; }
+            .process-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<header class="header" id="header">
+    <div class="container">
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">◇</span>
+                <div>
+                    <h1>Пром<span>Тех</span>Софт</h1>
+                    <p class="tagline">Инженерные решения</p>
+                </div>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="services.html" class="active">Услуги</a></li>
+                <li><a href="projects.html">Проекты</a></li>
+                <li><a href="blog.html">Блог</a></li>
+                <li><a href="about.html">О компании</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+            </ul>
+            <button class="burger" id="burger" aria-label="Меню">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="demo-banner">
+        ⚠️ Демонстрационный сайт. Компания не является реальным юридическим лицом. Учебный проект.
+    </div>
+
+    <!-- Hero -->
+    <section class="page-header">
+        <div class="container">
+            <span class="badge">⚡ Что мы предлагаем</span>
+            <h2>Наши услуги</h2>
+            <p>Полный цикл промышленной разработки: от анализа задачи до технической поддержки</p>
+        </div>
+    </section>
+
+    <!-- Услуга 1: Автоматизация -->
+    <section>
+        <div class="container">
+            <div class="service-section" id="automation">
+                <div class="service-header">
+                    <div class="service-icon-large icon-automation">⚙️</div>
+                    <div class="service-title-block">
+                        <h3>Автоматизация производств</h3>
+                        <p>Разработка и внедрение систем автоматизации технологических процессов любой сложности. От единичного станка до полной диспетчеризации завода.</p>
+                    </div>
+                </div>
+
+                <div class="service-details-grid">
+                    <div class="service-detail-card">
+                        <h4>📋 Что мы делаем</h4>
+                        <ul>
+                            <li>Разработка SCADA-систем</li>
+                            <li>Проектирование АСУ ТП</li>
+                            <li>Внедрение MES-систем</li>
+                            <li>Диспетчеризация производства</li>
+                            <li>Мониторинг оборудования</li>
+                            <li>Интеграция с ПЛК</li>
+                            <li>Предиктивная аналитика</li>
+                            <li>Удалённый мониторинг</li>
+                        </ul>
+                    </div>
+                    <div class="service-detail-card">
+                        <h4>🛠 Технологии</h4>
+                        <div class="tech-tags">
+                            <span class="tech-tag">SCADA</span>
+                            <span class="tech-tag">OPC UA</span>
+                            <span class="tech-tag">Modbus</span>
+                            <span class="tech-tag">Siemens ПЛК</span>
+                            <span class="tech-tag">Allen-Bradley</span>
+                            <span class="tech-tag">InfluxDB</span>
+                            <span class="tech-tag">Grafana</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">C++</span>
+                            <span class="tech-tag">MQTT</span>
+                        </div>
+                        <div class="highlight-box">
+                            <strong>💡 Средний результат:</strong> повышение производительности на 30-40%, сокращение простоев на 25-40%
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-benefits">
+                    <div class="benefit-item">
+                        <span class="benefit-icon">📊</span>
+                        <span class="benefit-value">от 500 000 ₽</span>
+                        <span class="benefit-label">Стоимость проекта</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">⏱</span>
+                        <span class="benefit-value">от 2 месяцев</span>
+                        <span class="benefit-label">Срок реализации</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">🛡️</span>
+                        <span class="benefit-value">24/7</span>
+                        <span class="benefit-label">Техподдержка</span>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <a href="contacts.html" class="btn btn-primary">Заказать автоматизацию →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Услуга 2: КОМПАС-3D -->
+    <section style="padding-top: 0;">
+        <div class="container">
+            <div class="service-section" id="kompas">
+                <div class="service-header">
+                    <div class="service-icon-large icon-kompas">📐</div>
+                    <div class="service-title-block">
+                        <h3>3D-моделирование в КОМПАС-3D</h3>
+                        <p>Параметрическое моделирование, конструкторская документация по ЕСКД, реверс-инжиниринг. Сертифицированные специалисты АСКОН.</p>
+                    </div>
+                </div>
+
+                <div class="service-details-grid">
+                    <div class="service-detail-card">
+                        <h4>📋 Что мы делаем</h4>
+                        <ul>
+                            <li>3D-моделирование деталей и сборок</li>
+                            <li>Оформление чертежей по ЕСКД</li>
+                            <li>Разработка спецификаций</li>
+                            <li>Реверс-инжиниринг</li>
+                            <li>Создание библиотек стандартных изделий</li>
+                            <li>Параметризация моделей</li>
+                            <li>Кинематический анализ</li>
+                            <li>Подготовка к 3D-печати</li>
+                        </ul>
+                    </div>
+                    <div class="service-detail-card">
+                        <h4>🛠 Возможности</h4>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Твердотельное моделирование</span>
+                            <span class="tech-tag">Листовой металл</span>
+                            <span class="tech-tag">Сварные конструкции</span>
+                            <span class="tech-tag">Трубопроводы</span>
+                            <span class="tech-tag">Сборки</span>
+                            <span class="tech-tag">Чертежи ЕСКД</span>
+                            <span class="tech-tag">Спецификации</span>
+                            <span class="tech-tag">3D-печать</span>
+                        </div>
+                        <div class="highlight-box">
+                            <strong>💡 Преимущество:</strong> официальный партнёр АСКОН. Все специалисты сертифицированы
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-benefits">
+                    <div class="benefit-item">
+                        <span class="benefit-icon">📐</span>
+                        <span class="benefit-value">от 30 000 ₽</span>
+                        <span class="benefit-label">Стоимость заказа</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">⏱</span>
+                        <span class="benefit-value">от 3 дней</span>
+                        <span class="benefit-label">Срок выполнения</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✅</span>
+                        <span class="benefit-value">100%</span>
+                        <span class="benefit-label">Соответствие ЕСКД</span>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <a href="contacts.html" class="btn btn-primary">Заказать моделирование →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Услуга 3: Siemens NX -->
+    <section style="padding-top: 0;">
+        <div class="container">
+            <div class="service-section" id="nx">
+                <div class="service-header">
+                    <div class="service-icon-large icon-siemens">🔷</div>
+                    <div class="service-title-block">
+                        <h3>Проектирование в Siemens NX</h3>
+                        <p>Высокоточное поверхностное и твердотельное моделирование, подготовка УП для станков с ЧПУ, инженерный анализ.</p>
+                    </div>
+                </div>
+
+                <div class="service-details-grid">
+                    <div class="service-detail-card">
+                        <h4>📋 Что мы делаем</h4>
+                        <ul>
+                            <li>Поверхностное моделирование</li>
+                            <li>Твердотельное моделирование</li>
+                            <li>Подготовка УП для ЧПУ</li>
+                            <li>Инженерный анализ (CAE)</li>
+                            <li>Оптимизация геометрии</li>
+                            <li>5-осевая обработка</li>
+                            <li>Создание постпроцессоров</li>
+                            <li>Верификация УП</li>
+                        </ul>
+                    </div>
+                    <div class="service-detail-card">
+                        <h4>🛠 Возможности</h4>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Siemens NX CAD</span>
+                            <span class="tech-tag">NX CAM</span>
+                            <span class="tech-tag">NX CAE</span>
+                            <span class="tech-tag">5-осевая обработка</span>
+                            <span class="tech-tag">Токарная обработка</span>
+                            <span class="tech-tag">Фрезерная обработка</span>
+                            <span class="tech-tag">Электроэрозия</span>
+                            <span class="tech-tag">Симуляция</span>
+                        </div>
+                        <div class="highlight-box">
+                            <strong>💡 Точность:</strong> допуски до 0.001 мм. Для аэрокосмоса, автомобилестроения, медицины
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-benefits">
+                    <div class="benefit-item">
+                        <span class="benefit-icon">🔷</span>
+                        <span class="benefit-value">от 100 000 ₽</span>
+                        <span class="benefit-label">Стоимость проекта</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">⏱</span>
+                        <span class="benefit-value">от 1 месяца</span>
+                        <span class="benefit-label">Срок реализации</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">🎯</span>
+                        <span class="benefit-value">0.001 мм</span>
+                        <span class="benefit-label">Точность моделей</span>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <a href="contacts.html" class="btn btn-primary">Заказать проектирование →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Услуга 4: ПО на заказ -->
+    <section style="padding-top: 0;">
+        <div class="container">
+            <div class="service-section" id="custom">
+                <div class="service-header">
+                    <div class="service-icon-large icon-software">💻</div>
+                    <div class="service-title-block">
+                        <h3>Разработка ПО на заказ</h3>
+                        <p>Создание уникальных программных продуктов под задачи предприятия. Веб-системы, десктопные приложения, интеграция с 1С.</p>
+                    </div>
+                </div>
+
+                <div class="service-details-grid">
+                    <div class="service-detail-card">
+                        <h4>📋 Что мы делаем</h4>
+                        <ul>
+                            <li>Веб-системы и порталы</li>
+                            <li>Десктопные приложения</li>
+                            <li>Интеграция с 1С</li>
+                            <li>Базы данных</li>
+                            <li>API интеграция</li>
+                            <li>Мобильные приложения</li>
+                            <li>Облачные решения</li>
+                            <li>Техническая поддержка</li>
+                        </ul>
+                    </div>
+                    <div class="service-detail-card">
+                        <h4>🛠 Технологии</h4>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">C++</span>
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">1С:Предприятие</span>
+                            <span class="tech-tag">REST API</span>
+                            <span class="tech-tag">WebSocket</span>
+                            <span class="tech-tag">Git</span>
+                        </div>
+                        <div class="highlight-box">
+                            <strong>💡 Подход:</strong> Agile-разработка с демонстрацией каждые 2 недели. Полное документирование
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-benefits">
+                    <div class="benefit-item">
+                        <span class="benefit-icon">💻</span>
+                        <span class="benefit-value">от 300 000 ₽</span>
+                        <span class="benefit-label">Стоимость разработки</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">⏱</span>
+                        <span class="benefit-value">от 1.5 месяцев</span>
+                        <span class="benefit-label">Срок реализации</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">🔄</span>
+                        <span class="benefit-value">Agile</span>
+                        <span class="benefit-label">Методология</span>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <a href="contacts.html" class="btn btn-primary">Заказать разработку →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Процесс работы -->
+    <section style="background: white;">
+        <div class="container process-section">
+            <span class="badge">📋 Как мы работаем</span>
+            <h2 style="font-size: 1.8rem; color: var(--primary); margin-top: 0.5rem;">Этапы выполнения проекта</h2>
+            <p style="color: var(--text-light);">Прозрачный процесс от заявки до сдачи проекта</p>
+
+            <div class="process-grid">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h4>Заявка и аудит</h4>
+                    <p>Вы оставляете заявку или звоните. Мы анализируем задачу, проводим аудит текущих систем и готовим коммерческое предложение</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h4>Проектирование</h4>
+                    <p>Разрабатываем архитектуру решения, согласовываем техническое задание. Утверждаем план-график и бюджет</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h4>Разработка</h4>
+                    <p>Создаём ПО или 3D-модели. Проводим демонстрации каждые 2 недели. Тестируем на каждом этапе</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h4>Внедрение</h4>
+                    <p>Устанавливаем, настраиваем, интегрируем с существующими системами. Обучаем персонал. Обеспечиваем техподдержку</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Сравнение CAD-систем -->
+    <section>
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <span class="badge">📊 Сравнение</span>
+                <h2 style="font-size: 1.8rem; color: var(--primary); margin-top: 0.5rem;">КОМПАС-3D vs Siemens NX</h2>
+                <p style="color: var(--text-light);">Помогаем выбрать подходящую CAD-систему под ваши задачи</p>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="comparison-table">
+                    <thead>
+                    <tr>
+                        <th>Критерий</th>
+                        <th>КОМПАС-3D</th>
+                        <th>Siemens NX</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><strong>Стоимость лицензии</strong></td>
+                        <td>от 110 000 ₽ (бессрочная)</td>
+                        <td>от 800 000 ₽/год</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ЕСКД</strong></td>
+                        <td><span class="check">✓ Полная поддержка</span></td>
+                        <td>Требуется настройка</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Поверхностное моделирование</strong></td>
+                        <td>Базовое</td>
+                        <td><span class="check">✓ Профессиональное</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>ЧПУ (CAM)</strong></td>
+                        <td>Базовое (2.5D)</td>
+                        <td><span class="check">✓ Полное 5-осевое</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Инженерный анализ (CAE)</strong></td>
+                        <td>Базовый</td>
+                        <td><span class="check">✓ Продвинутый</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Кривая обучения</strong></td>
+                        <td>Низкая (1-2 мес)</td>
+                        <td>Высокая (3-6 мес)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Для каких задач</strong></td>
+                        <td>Машиностроение, ЕСКД</td>
+                        <td>Аэрокосмос, авто, оснастка</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Калькулятор стоимости (демо) -->
+    <section>
+        <div class="container">
+            <div class="calculator">
+                <h2>📊 Калькулятор стоимости проекта</h2>
+                <p>Примерный расчёт. Точную стоимость определим после аудита</p>
+
+                <div class="calc-grid">
+                    <div class="calc-item">
+                        <label>Тип услуги</label>
+                        <select id="calcType">
+                            <option value="automation">Автоматизация</option>
+                            <option value="kompas">КОМПАС-3D</option>
+                            <option value="siemens">Siemens NX</option>
+                            <option value="software">Разработка ПО</option>
+                        </select>
+                    </div>
+                    <div class="calc-item">
+                        <label>Сложность</label>
+                        <select id="calcComplexity">
+                            <option value="1">Стандартная</option>
+                            <option value="1.5">Повышенная</option>
+                            <option value="2">Высокая</option>
+                        </select>
+                    </div>
+                    <div class="calc-item">
+                        <label>Срочность</label>
+                        <select id="calcUrgency">
+                            <option value="1">Стандартная</option>
+                            <option value="1.3">Ускоренная (+30%)</option>
+                            <option value="1.6">Срочная (+60%)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="calc-result" id="calcResult">от 500 000 ₽</div>
+                <p class="calc-note">* Ориентировочная стоимость. Окончательная цена после составления ТЗ</p>
+
+                <a href="contacts.html" class="btn btn-outline">Получить точный расчёт →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section>
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <span class="badge">❓ Часто спрашивают</span>
+                <h2 style="font-size: 1.8rem; color: var(--primary); margin-top: 0.5rem;">Ответы на вопросы</h2>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>Сколько времени занимает разработка SCADA-системы?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Стандартный проект занимает 2-4 месяца. Срок зависит от количества подключаемого оборудования, сложности интеграции и требований к отчётности. Точный план-график предоставляем после аудита.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>Предоставляете ли вы гарантию на работы?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Да, мы предоставляем гарантию 12 месяцев на все выполненные работы. В течение этого срока бесплатно устраняем любые дефекты. Также доступна расширенная техподдержка 24/7 для критических систем.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>Работаете ли вы удалённо с регионами?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Да, большинство проектов мы ведём удалённо. Обследование проводим онлайн или выезжаем на место (включено в стоимость). У нас есть клиенты от Калининграда до Владивостока.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>Что входит в стоимость 3D-моделирования?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>В стоимость включено: создание 3D-модели, оформление чертежа по ЕСКД, спецификация (при необходимости), 2 итерации правок. Дополнительные правки и реверс-инжиниринг оплачиваются отдельно.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section>
+        <div class="container">
+            <div class="cta">
+                <h2>Готовы обсудить ваш проект?</h2>
+                <p>Оставьте заявку, и мы подготовим индивидуальное предложение в течение 24 часов</p>
+                <a href="contacts.html" class="btn btn-primary">Оставить заявку →</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>ПромТехСофт</h4>
+                <p>Разработка ПО и 3D-моделирование с 2014 года. Сертифицированные специалисты КОМПАС-3D и Siemens NX.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Услуги</h4>
+                <p><a href="#automation">Автоматизация</a></p>
+                <p><a href="#kompas">КОМПАС-3D</a></p>
+                <p><a href="#nx">Siemens NX</a></p>
+                <p><a href="#custom">ПО на заказ</a></p>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <p>📍 Воронеж, Плехановская, 11</p>
+                <p>📞 +7 (930) 401-93-62</p>
+                <p>✉️ info@promtechsoft.ru</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 <strong>ПромТехСофт</strong>. Демонстрационный сайт.</p>
+        </div>
+    </div>
+</footer>
+
+<div style="background: #ff6b6b; color: white; text-align: center; padding: 0.5rem; font-size: 0.85rem;">
+    ⚠️ Демонстрационный сайт. Компания не является реальным юридическим лицом. Учебный проект.
+</div>
+
+<button class="scroll-top" id="scrollTop" aria-label="Наверх">↑</button>
+
+<script>
+    // Калькулятор стоимости
+    const basePrices = {
+        automation: 500000,
+        kompas: 30000,
+        siemens: 100000,
+        software: 300000
+    };
+
+    function updateCalculator() {
+        const type = document.getElementById('calcType').value;
+        const complexity = parseFloat(document.getElementById('calcComplexity').value);
+        const urgency = parseFloat(document.getElementById('calcUrgency').value);
+
+        const base = basePrices[type];
+        const total = Math.round(base * complexity * urgency);
+
+        document.getElementById('calcResult').textContent =
+            'от ' + total.toLocaleString('ru-RU') + ' ₽';
+    }
+
+    document.getElementById('calcType').addEventListener('change', updateCalculator);
+    document.getElementById('calcComplexity').addEventListener('change', updateCalculator);
+    document.getElementById('calcUrgency').addEventListener('change', updateCalculator);
+
+    updateCalculator();
+
+    // FAQ
+    function toggleFaq(item) {
+        const isActive = item.classList.contains('active');
+
+        // Закрываем все
+        document.querySelectorAll('.faq-item').forEach(faq => {
+            faq.classList.remove('active');
+        });
+
+        // Открываем текущий, если был закрыт
+        if (!isActive) {
+            item.classList.add('active');
+        }
+    }
+
+    // Бургер-меню
+    const burger = document.getElementById('burger');
+    const navMenu = document.getElementById('navMenu');
+
+    burger.addEventListener('click', () => {
+        burger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            burger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+
+    // Кнопка наверх
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+        scrollTopBtn.classList.toggle('visible', window.scrollY > 500);
+    });
+
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+</script>
+</body>
+</html>

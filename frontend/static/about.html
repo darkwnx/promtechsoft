@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О компании - ПромТехСофт | Команда экспертов</title>
+    <meta name="description" content="ПромТехСофт - команда профессионалов в разработке ПО и 3D-моделировании. Познакомьтесь с нашими специалистами, узнайте о миссии и ценностях компании.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110703368', 'ym');
+        ym(110703368, 'init', {clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/110703368" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+    <style>
+        :root {
+            --primary: #0a1628;
+            --accent: #00d4aa;
+            --accent-hover: #00f0c8;
+            --white: #ffffff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --text: #2d3436;
+            --text-light: #636e72;
+            --radius: 16px;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --shadow-hover: 0 20px 40px rgba(0,0,0,0.15);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--gray-50);
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        .demo-banner {
+            background: #ff6b6b;
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        /* Шапка */
+        .header {
+            background: rgba(10, 22, 40, 0.95);
+            backdrop-filter: blur(20px);
+            color: white;
+            padding: 0.8rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: white; }
+        .logo-icon { font-size: 1.8rem; color: var(--accent); }
+        .logo h1 { font-size: 1.3rem; font-weight: 800; }
+        .logo h1 span { color: var(--accent); font-weight: 300; }
+        .tagline { font-size: 0.7rem; color: var(--gray-400); letter-spacing: 1px; }
+
+        .nav-menu { display: flex; list-style: none; gap: 1.5rem; }
+        .nav-menu a { color: var(--gray-300); text-decoration: none; font-weight: 500; font-size: 0.85rem; padding: 0.4rem 0; border-bottom: 2px solid transparent; transition: var(--transition); }
+        .nav-menu a:hover, .nav-menu a.active { color: white; border-bottom-color: var(--accent); }
+
+        .burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 5px; }
+        .burger span { width: 25px; height: 2px; background: white; display: block; transition: var(--transition); }
+        .burger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .burger.active span:nth-child(2) { opacity: 0; }
+        .burger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* Hero */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary), #1a2d47);
+            color: white;
+            padding: 2rem 0 1.8rem;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0, 212, 170, 0.1);
+            color: var(--accent);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 0.6rem;
+            border: 1px solid rgba(0, 212, 170, 0.2);
+        }
+
+        .page-header h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.3rem; }
+        .page-header p { color: var(--gray-300); font-size: 0.9rem; }
+
+        section { padding: 2.5rem 0; }
+
+        /* О компании */
+        .about-intro {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .about-text .lead {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .about-text p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        /* Блок с достижениями */
+        .achievements {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .achievement-card {
+            background: white;
+            padding: 2rem 1.5rem;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .achievement-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+            display: block;
+        }
+
+        .achievement-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Миссия и ценности */
+        .mission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .mission-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+
+        .mission-card h3 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mission-card p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .values-list {
+            list-style: none;
+        }
+
+        .values-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray-100);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .values-list li:last-child {
+            border-bottom: none;
+        }
+
+        .value-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 212, 170, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .value-content strong {
+            display: block;
+            color: var(--text);
+            margin-bottom: 0.2rem;
+        }
+
+        .value-content p {
+            font-size: 0.85rem;
+            margin-bottom: 0;
+        }
+
+        /* История */
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--accent), var(--primary));
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.35rem;
+            top: 1.5rem;
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px var(--accent);
+        }
+
+        .timeline-year {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.2rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item h4 {
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .timeline-item p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Команда */
+        .team-section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .team-section-header h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .team-section-header p {
+            color: var(--text-light);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .team-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .team-photo {
+            width: 100%;
+            height: 260px;
+            background: linear-gradient(135deg, var(--primary), #1a2d47);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+            border: 4px solid rgba(255,255,255,0.3);
+        }
+
+        .team-info {
+            padding: 1.5rem;
+        }
+
+        .team-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.2rem;
+        }
+
+        .team-role {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .team-bio {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .team-skills {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .team-skill {
+            background: var(--gray-100);
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, var(--primary), #1a2d47);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            border-radius: var(--radius);
+        }
+
+        .cta h2 { font-size: 1.8rem; margin-bottom: 0.8rem; }
+        .cta p { color: var(--gray-300); margin-bottom: 1.5rem; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
+        }
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 212, 170, 0.4);
+        }
+
+        /* Сертификаты */
+        .certificates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .certificate-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+        }
+
+        .certificate-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .certificate-icon {
+            font-size: 3rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .certificate-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .certificate-card p {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        /* Футер */
+        .footer { background: #051024; color: var(--gray-400); padding: 3rem 0 1rem; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2.5rem; }
+        .footer-col h4 { color: white; margin-bottom: 0.8rem; font-size: 0.95rem; }
+        .footer-col p { font-size: 0.85rem; }
+        .footer-bottom { text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem; }
+
+        .scroll-top {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 50px; height: 50px;
+            background: var(--accent); color: var(--primary);
+            border: none; border-radius: 50%;
+            font-size: 1.5rem; cursor: pointer;
+            opacity: 0; pointer-events: none;
+            transition: var(--transition); z-index: 999;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+        }
+
+        .scroll-top.visible { opacity: 1; pointer-events: all; }
+
+        @media (max-width: 768px) {
+            .burger { display: flex; }
+            .nav-menu { display: none; position: fixed; top: 60px; left: 0; right: 0; background: var(--primary); flex-direction: column; padding: 2rem; text-align: center; gap: 1rem; z-index: 1000; }
+            .nav-menu.active { display: flex; }
+            .about-intro { grid-template-columns: 1fr; }
+            .achievements { grid-template-columns: repeat(2, 1fr); }
+            .mission-grid { grid-template-columns: 1fr; }
+            .team-grid { grid-template-columns: repeat(2, 1fr); }
+            .timeline { padding-left: 2.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .achievements { grid-template-columns: 1fr; }
+            .team-grid { grid-template-columns: 1fr; }
+            .certificates-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<header class="header" id="header">
+    <div class="container">
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">◇</span>
+                <div>
+                    <h1>Пром<span>Тех</span>Софт</h1>
+                    <p class="tagline">Инженерные решения</p>
+                </div>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="projects.html">Проекты</a></li>
+                <li><a href="blog.html">Блог</a></li>
+                <li><a href="about.html" class="active">О компании</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+            </ul>
+            <button class="burger" id="burger" aria-label="Меню">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="demo-banner">
+        ⚠️ Демонстрационный сайт. Компания не является реальным юридическим лицом. Учебный проект.
+    </div>
+
+    <!-- Hero -->
+    <section class="page-header">
+        <div class="container">
+            <span class="badge">🏢 О нас</span>
+            <h2>О компании</h2>
+            <p>Эксперты в промышленной разработке и 3D-моделировании</p>
+        </div>
+    </section>
+
+    <!-- О компании -->
+    <section>
+        <div class="container">
+            <div class="about-intro">
+                <div class="about-text">
+                    <h2>Кто мы</h2>
+                    <p class="lead">ПромТехСофт — команда инженеров и разработчиков, создающая программные решения для промышленности с 2014 года.</p>
+                    <p>Мы начинали как небольшая группа специалистов, объединённых общей идеей — сделать автоматизацию доступной для российских предприятий. Сегодня в нашей команде 24 сертифицированных специалиста, а в портфолио — более 200 успешных проектов.</p>
+                    <p>Наш подход основан на глубоком погружении в задачи заказчика. Мы не просто пишем код или создаём 3D-модели — мы решаем конкретные производственные задачи, которые приносят измеримый результат.</p>
+                </div>
+                <div class="achievements">
+                    <div class="achievement-card">
+                        <div class="achievement-icon">📅</div>
+                        <span class="achievement-number">10+</span>
+                        <span class="achievement-label">лет опыта</span>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-icon">✅</div>
+                        <span class="achievement-number">200+</span>
+                        <span class="achievement-label">проектов</span>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-icon">🏭</div>
+                        <span class="achievement-number">50+</span>
+                        <span class="achievement-label">клиентов</span>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-icon">👥</div>
+                        <span class="achievement-number">24</span>
+                        <span class="achievement-label">специалиста</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Миссия и ценности -->
+    <section style="background: white;">
+        <div class="container">
+            <div class="mission-grid">
+                <div class="mission-card">
+                    <h3>🎯 Наша миссия</h3>
+                    <p>Мы помогаем промышленным предприятиям стать эффективнее через внедрение современных технологий автоматизации и точное проектирование.</p>
+                    <p>Каждый наш проект — это не просто техническое задание, а вклад в развитие российской промышленности. Мы верим, что качественное ПО и грамотное проектирование способны трансформировать производство.</p>
+                </div>
+                <div class="mission-card">
+                    <h3>💎 Наши ценности</h3>
+                    <ul class="values-list">
+                        <li>
+                            <div class="value-icon">🔬</div>
+                            <div class="value-content">
+                                <strong>Экспертиза</strong>
+                                <p>Постоянное обучение и сертификация. Каждый сотрудник проходит минимум 2 курса повышения квалификации в год.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="value-icon">🤝</div>
+                            <div class="value-content">
+                                <strong>Ответственность</strong>
+                                <p>Мы несём полную ответственность за результат. Техподдержка 24/7 для критических систем.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="value-icon">💡</div>
+                            <div class="value-content">
+                                <strong>Инновации</strong>
+                                <p>Следим за трендами и внедряем передовые технологии: IIoT, цифровые двойники, предиктивную аналитику.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="value-icon">🎯</div>
+                            <div class="value-content">
+                                <strong>Клиентоориентированность</strong>
+                                <p>Каждое решение разрабатывается под конкретные задачи заказчика с учётом специфики производства.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- История компании -->
+    <section>
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 2.5rem;">
+                <span class="badge">📜 История</span>
+                <h2 style="font-size: 1.8rem; color: var(--primary); margin-top: 0.5rem;">Как мы росли</h2>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="timeline-year">2014</span>
+                    <h4>Основание компании</h4>
+                    <p>Три инженера-программиста объединились для создания компании. Первый офис в Воронеже, первый заказчик — местный машиностроительный завод.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-year">2016</span>
+                    <h4>Расширение команды</h4>
+                    <p>Штат вырос до 10 человек. Получена сертификация КОМПАС-3D. Начало работы с Siemens NX.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-year">2018</span>
+                    <h4>Первые крупные проекты</h4>
+                    <p>Внедрение SCADA-системы для завода с 150+ станками. Разработка MES-системы для пищевого производства.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-year">2020</span>
+                    <h4>Удалённая работа</h4>
+                    <p>Полный переход на гибридный формат. Расширение географии клиентов — от Калининграда до Владивостока.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-year">2024</span>
+                    <h4>Сегодня</h4>
+                    <p>24 специалиста, 200+ завершённых проектов, 50+ постоянных клиентов. Входим в топ-10 разработчиков промышленного ПО в регионе.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Команда -->
+    <section style="background: white;">
+        <div class="container">
+            <div class="team-section-header">
+                <span class="badge">👥 Наши специалисты</span>
+                <h2>Команда</h2>
+                <p>Познакомьтесь с ключевыми сотрудниками, которые работают над вашими проектами</p>
+            </div>
+            <div class="team-grid">
+                <!-- Сотрудник 1 -->
+                <div class="team-card">
+                    <div class="team-photo">
+                        <img src="images/Radik.jpg" alt="Рахманов Радомир">
+                    </div>
+                    <div class="team-info">
+                        <div class="team-name">Рахманов Радомир</div>
+                        <div class="team-role">Генеральный директор</div>
+                        <p class="team-bio">Основатель компании. Кандидат технических наук. Гений. Миллиардер. Плейбой. Филантроп.</p>
+                        <div class="team-skills">
+                            <span class="team-skill">Money</span>
+                            <span class="team-skill">Genius</span>
+                            <span class="team-skill">SEO</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Сотрудник 2 -->
+                <div class="team-card">
+                    <div class="team-photo">
+                        <img src="images/Dasha1.jpg" alt="Сидельникова Дарья">
+                    </div>
+                    <div class="team-info">
+                        <div class="team-name">Сидельникова Дарья</div>
+                        <div class="team-role">Специалист по тревожному делегированию</div>
+                        <p class="team-bio">Официальный поставщик конспектов и панического настроения в нашем дружном коллективе.</p>
+                        <div class="team-skills">
+                            <span class="team-skill">Спроси первым</span>
+                            <span class="team-skill">Конспекты</span>
+                            <span class="team-skill">Паника 24/7</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Сотрудник 3 -->
+                <div class="team-card">
+                    <div class="team-photo">
+                        <img src="images/Katya.jpg" alt="Теплякова Екатерина">
+                    </div>
+                    <div class="team-info">
+                        <div class="team-name">Теплякова Екатерина</div>
+                        <div class="team-role">Ведьмочка</div>
+                        <p class="team-bio">Таролог. Астролог. Знает твоё будущее лучше, чем ты сам. Расклады на любовь, сессию и «стоит ли сегодня идти на пары». </p>
+                        <div class="team-skills">
+                            <span class="team-skill">Таро</span>
+                            <span class="team-skill">Астрология</span>
+                            <span class="team-skill">Сглаз преподавателя</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Сотрудник 4 -->
+                <div class="team-card">
+                    <div class="team-photo">
+                        <img src="images/Egor.jpg" alt="Труфанов Егор">
+                    </div>
+                    <div class="team-info">
+                        <div class="team-name">Труфанов Егор</div>
+                        <div class="team-role">Senior разработчик</div>
+                        <p class="team-bio">Full-stack разработчик. Писал на Java ещё до того, как это стало мейнстримом. Помнит времена, когда Spring был просто сезоном года.</p>
+                        <div class="team-skills">
+                            <span class="team-skill">Легенда</span>
+                            <span class="team-skill">Spring Framework</span>
+                            <span class="team-skill">PostgreSQL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Сотрудник 5 -->
+                <div class="team-card">
+                    <div class="team-photo">
+                        <img src="images/Tema.jpg" alt="Логвинов Артём">
+                    </div>
+                    <div class="team-info">
+                        <div class="team-name">Логвинов Артём</div>
+                        <div class="team-role">Уборщица</div>
+                        <p class="team-bio">Два метра доброты и швабры. Вытирает пыль, слёзы и плохое настроение. После его уборки даже баги исчезают.</p>
+                        <div class="team-skills">
+                            <span class="team-skill">Cleaning</span>
+                            <span class="team-skill">Моральная поддержка</span>
+                            <span class="team-skill">Обнимашки </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Сотрудник 6 -->
+                <div class="team-card">
+                    <div class="team-photo">
+                        <img src="images/Sanya.jpg" alt="Шершнев Александр">
+                    </div>
+                    <div class="team-info">
+                        <div class="team-name">Шершнев Александр</div>
+                        <div class="team-role">SMM-менеджер</div>
+                        <p class="team-bio">Создатель рилсов, мемов и настроения. Ну и просто конч, но мы его любим.</p>
+                        <div class="team-skills">
+                            <span class="team-skill">SMM</span>
+                            <span class="team-skill">Tiktok</span>
+                            <span class="team-skill">Кринж</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Сертификаты и партнёры -->
+    <section>
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 2.5rem;">
+                <span class="badge">📜 Сертификаты</span>
+                <h2 style="font-size: 1.8rem; color: var(--primary); margin-top: 0.5rem;">Наши компетенции подтверждены</h2>
+            </div>
+            <div class="certificates-grid">
+                <div class="certificate-card">
+                    <div class="certificate-icon">📐</div>
+                    <h4>Сертифицированный партнёр АСКОН</h4>
+                    <p>Официальный партнёр по внедрению и обучению КОМПАС-3D</p>
+                </div>
+                <div class="certificate-card">
+                    <div class="certificate-icon">🔷</div>
+                    <h4>Siemens NX Certified Professional</h4>
+                    <p>Сертифицированные специалисты по проектированию в Siemens NX</p>
+                </div>
+                <div class="certificate-card">
+                    <div class="certificate-icon">⚙️</div>
+                    <h4>Сертификат ISO 9001</h4>
+                    <p>Система менеджмента качества соответствует международным стандартам</p>
+                </div>
+                <div class="certificate-card">
+                    <div class="certificate-icon">🛡️</div>
+                    <h4>Лицензия ФСТЭК</h4>
+                    <p>Лицензия на деятельность по технической защите конфиденциальной информации</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section>
+        <div class="container">
+            <div class="cta">
+                <h2>Хотите работать с профессионалами?</h2>
+                <p>Свяжитесь с нами для обсуждения вашего проекта</p>
+                <a href="contacts.html" class="btn btn-primary">Связаться с нами →</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>ПромТехСофт</h4>
+                <p>Разработка ПО и 3D-моделирование с 2014 года.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <p>📍 Воронеж, Плехановская, 11</p>
+                <p>📞 +7 (930) 401-93-62</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 <strong>ПромТехСофт</strong>. Демонстрационный сайт.</p>
+        </div>
+    </div>
+</footer>
+
+<div style="background: #ff6b6b; color: white; text-align: center; padding: 0.5rem; font-size: 0.85rem;">
+    ⚠️ Демонстрационный сайт. Компания не является реальным юридическим лицом. Учебный проект.
+</div>
+
+<button class="scroll-top" id="scrollTop" aria-label="Наверх">↑</button>
+
+<script>
+    // Бургер-меню
+    const burger = document.getElementById('burger');
+    const navMenu = document.getElementById('navMenu');
+
+    burger.addEventListener('click', () => {
+        burger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            burger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+
+    // Кнопка наверх
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+        scrollTopBtn.classList.toggle('visible', window.scrollY > 500);
+    });
+
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Анимация появления при скролле
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+</script>
+</body>
+</html>
