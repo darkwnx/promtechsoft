@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -57,6 +58,7 @@ class BlogPostControllerIntegrationTest {
 
     @Test
     @DisplayName("POST /api/v1/posts - should create post")
+    @WithMockUser(roles = "ADMIN")
     void createPost_ShouldCreatePost() throws Exception {
         BlogPostRequest request = new BlogPostRequest();
         request.setTitle("New Post");
@@ -93,6 +95,7 @@ class BlogPostControllerIntegrationTest {
 
     @Test
     @DisplayName("PUT /api/v1/posts/{id} - should update post")
+    @WithMockUser(roles = "ADMIN")
     void updatePost_ShouldUpdatePost() throws Exception {
         BlogPostEntity saved = blogPostRepository.findAll().get(0);
 
@@ -113,6 +116,7 @@ class BlogPostControllerIntegrationTest {
 
     @Test
     @DisplayName("DELETE /api/v1/posts/{id} - should delete post")
+    @WithMockUser(roles = "ADMIN")
     void deletePost_ShouldDeletePost() throws Exception {
         BlogPostEntity saved = blogPostRepository.findAll().get(0);
 
@@ -122,9 +126,10 @@ class BlogPostControllerIntegrationTest {
 
     @Test
     @DisplayName("POST /api/v1/posts - should validate request")
+    @WithMockUser(roles = "ADMIN")
     void createPost_ShouldValidateRequest() throws Exception {
         BlogPostRequest request = new BlogPostRequest();
-        request.setTitle("");  // Empty title - should fail
+        request.setTitle("");
         request.setContent("");
 
         mockMvc.perform(post("/api/v1/posts")
