@@ -5,17 +5,23 @@ spring:
   application:
     name: promtechsoft
 
+  # Статические ресурсы
   web:
     resources:
       static-locations: classpath:/static/, file:frontend/static/
 
+  # База данных PostgreSQL
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5432/promtechsoft
+    url: jdbc:postgresql://localhost:5432/promtechsoft?ssl=false&connectTimeout=5
     username: postgres
     password: 12345
     driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 10000
+      maximum-pool-size: 10
+      minimum-idle: 5
 
-
+  # JPA
   jpa:
     hibernate:
       ddl-auto: update
@@ -26,12 +32,39 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
 
+  # Redis
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 2000ms
+
+  # Кэширование
+  cache:
+    type: redis
+    redis:
+      time-to-live: 600000
+      cache-null-values: false
+
 # JWT настройки
 jwt:
   secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-  expiration: 86400000  # 24 часа в миллисекундах
+  expiration: 86400000
 
+# Логирование
 logging:
   level:
     root: INFO
     com.promtechsoft: DEBUG
+    com.promtechsoft.controller: DEBUG
+    com.promtechsoft.service: DEBUG
+    com.promtechsoft.repository: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.security: INFO
+  file:
+    name: logs/promtechsoft.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

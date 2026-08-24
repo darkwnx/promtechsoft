@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # PostgreSQL база данных
   postgres:
     image: postgres:16
     container_name: promtechsoft-postgres
@@ -19,7 +18,19 @@ services:
       timeout: 5s
       retries: 5
 
-  # Spring Boot приложение
+  redis:
+    image: redis:7-alpine
+    container_name: promtechsoft-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   backend:
     build: .
     container_name: promtechsoft-backend
@@ -29,11 +40,15 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/promtechsoft
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
     depends_on:
       postgres:
         condition: service_healthy
-    volumes:
-      - ./logs:/app/logs
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
 
 volumes:
   postgres_data:
+  redis_data:

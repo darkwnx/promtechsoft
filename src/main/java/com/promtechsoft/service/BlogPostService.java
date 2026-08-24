@@ -7,6 +7,8 @@ import com.promtechsoft.exception.ResourceNotFoundException;
 import com.promtechsoft.repository.BlogPostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,22 +23,25 @@ public class BlogPostService {
     private final BlogPostRepository blogPostRepository;
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "posts", key = "'all'")
     public List<BlogPostResponse> getAllPosts() {
-        log.info("Getting all published posts");
+        log.info("Fetching all posts from database");
         return blogPostRepository.findByPublishedTrue().stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "posts", key = "#id")
     public BlogPostResponse getPostById(Long id) {
-        log.info("Getting post by id: {}", id);
+        log.info("Fetching post {} from database", id);
         BlogPostEntity post = blogPostRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Пост с id " + id + " не найден"));
         return toResponse(post);
     }
 
     @Transactional
+    @CacheEvict(value = "posts", allEntries = true)
     public BlogPostResponse createPost(BlogPostRequest request) {
         log.info("Creating new post: {}", request.getTitle());
 
@@ -54,6 +59,7 @@ public class BlogPostService {
     }
 
     @Transactional
+    @CacheEvict(value = "posts", allEntries = true)
     public BlogPostResponse updatePost(Long id, BlogPostRequest request) {
         log.info("Updating post with id: {}", id);
 
@@ -73,6 +79,7 @@ public class BlogPostService {
     }
 
     @Transactional
+    @CacheEvict(value = "posts", allEntries = true)
     public void deletePost(Long id) {
         log.info("Deleting post with id: {}", id);
 
@@ -84,6 +91,7 @@ public class BlogPostService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "search", key = "#query")
     public List<BlogPostResponse> searchPosts(String query) {
         log.info("Searching posts by: {}", query);
         return blogPostRepository.searchPosts(query).stream()
@@ -92,6 +100,7 @@ public class BlogPostService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "category", key = "#category")
     public List<BlogPostResponse> getPostsByCategory(String category) {
         log.info("Getting posts by category: {}", category);
         return blogPostRepository.findByCategoryIgnoreCaseAndPublishedTrue(category).stream()
