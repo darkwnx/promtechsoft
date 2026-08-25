@@ -52,7 +52,6 @@ public class SecurityConfig {
 
                         .requestMatchers(
                                 "/",
-                                "/*.html",
                                 "/index.html",
                                 "/services.html",
                                 "/projects.html",
@@ -74,6 +73,11 @@ public class SecurityConfig {
                                 "/js/**",
                                 "/static/**"
                         ).permitAll()
+
+                        // Админ-панель: сам HTML-файл защищён сервером.
+                        // Проверка только в JavaScript недостаточна, потому что
+                        // пользователь может открыть /admin.html напрямую.
+                        .requestMatchers("/admin.html").hasRole("ADMIN")
 
                         // Swagger
                         .requestMatchers(

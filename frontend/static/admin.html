@@ -296,10 +296,18 @@
     }
 
 
-    function logout() {
+    async function logout() {
+        try {
+            await fetch(`${API_URL}/auth/logout`, {
+                method: 'POST',
+                credentials: 'include'
+            });
+        } catch (error) {
+            console.warn('Logout request failed:', error);
+        }
+
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-
         window.location.href = 'index.html';
     }
 
@@ -345,9 +353,11 @@
                 {
                     method: 'GET',
 
+                    credentials: 'include',
+
                     headers: {
                         'Authorization':
-                            `Bearer ${token}`,
+                            token ? `Bearer ${token}` : '',
 
                         'Accept':
                             'application/json'
@@ -553,10 +563,11 @@
                 {
                     method: 'PATCH',
 
-                    headers: {
-                        'Authorization':
-                            `Bearer ${token}`
-                    }
+                    credentials: 'include',
+
+                    headers: token
+                        ? { 'Authorization': `Bearer ${token}` }
+                        : {}
                 }
             );
 
@@ -617,10 +628,11 @@
                 {
                     method: 'DELETE',
 
-                    headers: {
-                        'Authorization':
-                            `Bearer ${token}`
-                    }
+                    credentials: 'include',
+
+                    headers: token
+                        ? { 'Authorization': `Bearer ${token}` }
+                        : {}
                 }
             );
 

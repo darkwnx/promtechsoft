@@ -56,7 +56,7 @@
         const password = byId('loginPassword')?.value || '';
         if (!username || !password) return notify('Заполните имя пользователя и пароль.', true);
         try {
-            const response = await fetch(`${API_URL}/auth/login`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ username, password }) });
+            const response = await fetch(`${API_URL}/auth/login`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, credentials: 'include', body: JSON.stringify({ username, password }) });
             if (!response.ok) throw new Error(await apiError(response, 'Неверное имя пользователя или пароль.'));
             const data = await response.json();
             if (!data.token) throw new Error('Backend не вернул JWT token.');
@@ -81,7 +81,7 @@
         const password = byId('regPassword')?.value || '';
         if (!username || !email || !password) return notify('Заполните обязательные поля.', true);
         try {
-            const response = await fetch(`${API_URL}/auth/register`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ username, email, firstName, lastName, password }) });
+            const response = await fetch(`${API_URL}/auth/register`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, credentials: 'include', body: JSON.stringify({ username, email, firstName, lastName, password }) });
             if (!response.ok) throw new Error(await apiError(response, 'Не удалось зарегистрировать пользователя.'));
             const data = await response.json();
             if (!data.token) throw new Error('Backend не вернул JWT token после регистрации.');
@@ -97,7 +97,16 @@
         }
     }
 
-    function logout() {
+    async function logout() {
+        try {
+            await fetch(`${API_URL}/auth/logout`, {
+                method: 'POST',
+                credentials: 'include'
+            });
+        } catch (error) {
+            console.warn('Logout request failed:', error);
+        }
+
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         updateAuthUI(false);
@@ -165,21 +174,22 @@
         );
 
         box.innerHTML = `
-        <span class="user-name">
-            👤 ${safeName}
-        </span>
-
         ${
             isAdmin
                 ? `
                     <a
                         href="admin.html"
-                        class="btn-sm btn-primary-sm"
-                        id="adminButton">
-                        ⚙ Админ-панель
+                        class="user-name user-name-link"
+                        id="adminButton"
+                        title="Открыть профиль администратора">
+                        👤 ${safeName}
                     </a>
                   `
-                : ''
+                : `
+                    <span class="user-name">
+                        👤 ${safeName}
+                    </span>
+                  `
         }
 
         <button
