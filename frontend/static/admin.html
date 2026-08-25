@@ -1,86 +1,689 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
+
 <head>
-    <title>Админ-панель</title>
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Админ-панель — ПромТехСофт</title>
+
     <style>
-        body { font-family: 'Inter', sans-serif; padding: 2rem; }
-        table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
-        th, td { padding: 0.8rem; border: 1px solid #ddd; text-align: left; }
-        th { background: #0a1628; color: white; }
-        .status-new { color: #f39c12; font-weight: bold; }
-        .status-done { color: #00d4aa; font-weight: bold; }
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                    Inter,
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    "Segoe UI",
+                    sans-serif;
+
+            background: #f5f7fa;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #0a1628;
+            color: white;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        button,
+        .btn {
+            border: none;
+            border-radius: 8px;
+            padding: 9px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #00d4aa;
+            color: #062019;
+        }
+
+        .btn-secondary {
+            background: #334155;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .toolbar {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                    0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .toolbar h2 {
+            margin: 0;
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 12px;
+            overflow-x: auto;
+
+            box-shadow:
+                    0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: top;
+        }
+
+        th {
+            background: #0a1628;
+            color: white;
+            font-size: 13px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-NEW {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-IN_PROGRESS {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-COMPLETED {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-REJECTED {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .actions button {
+            font-size: 12px;
+            padding: 6px 9px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 50px;
+            color: #64748b;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #64748b;
+        }
+
+        .message {
+            max-width: 300px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
     </style>
 </head>
+
 <body>
-<h1>📋 Заявки</h1>
-<div id="applications"></div>
+
+<header class="header">
+
+    <h1>📋 Админ-панель</h1>
+
+    <div class="header-actions">
+
+        <a
+                href="index.html"
+                class="btn btn-secondary">
+            ← На сайт
+        </a>
+
+        <button
+                class="btn btn-danger"
+                id="logoutButton">
+            Выйти
+        </button>
+
+    </div>
+
+</header>
+
+<main class="container">
+
+    <div id="error"></div>
+
+    <div class="toolbar">
+
+        <h2>
+            Заявки клиентов
+            (<span id="count">0</span>)
+        </h2>
+
+        <button
+                class="btn btn-primary"
+                id="refreshButton">
+            ↻ Обновить
+        </button>
+
+    </div>
+
+    <div
+            id="applications"
+            class="table-wrapper">
+
+        <div class="loading">
+            Загрузка заявок...
+        </div>
+
+    </div>
+
+</main>
 
 <script>
-    const API_URL = 'http://localhost:8080/api/v1';
-    const token = localStorage.getItem('token');
+    'use strict';
 
-    if (!token) {
-        alert('Сначала войдите в систему');
-        window.location.href = '/';
+    const API_URL =
+        window.AUTH_API_URL ||
+        (
+            window.location.hostname === 'localhost' ||
+            window.location.hostname === '127.0.0.1'
+                ? 'http://localhost:8080/api/v1'
+                : '/api/v1'
+        );
+
+    const token =
+        localStorage.getItem('token');
+
+    let currentUser = {};
+
+    try {
+        currentUser = JSON.parse(
+            localStorage.getItem('user') || '{}'
+        );
+    } catch (_) {
+        currentUser = {};
     }
 
-    async function loadApplications() {
-        const response = await fetch(`${API_URL}/applications`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
+    const isAdmin =
+        Array.isArray(currentUser.roles) &&
+        currentUser.roles.includes('ROLE_ADMIN');
 
-        if (!response.ok) {
-            alert('Нет доступа. Требуется роль ADMIN');
+
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+
+    function logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+
+        window.location.href = 'index.html';
+    }
+
+
+    function showError(message) {
+        document.getElementById('error').innerHTML = `
+            <div class="error">
+                ${escapeHtml(message)}
+            </div>
+        `;
+    }
+
+
+    async function loadApplications() {
+
+        if (!token) {
+            window.location.href = 'index.html';
             return;
         }
 
-        const data = await response.json();
+        if (!isAdmin) {
+            showError(
+                'Доступ запрещён. Требуется роль ADMIN.'
+            );
 
-        let html = `<table>
-                <tr>
-                    <th>ID</th>
-                    <th>Имя</th>
-                    <th>Email</th>
-                    <th>Телефон</th>
-                    <th>Услуга</th>
-                    <th>Статус</th>
-                    <th>Дата</th>
-                    <th>Действия</th>
-                </tr>`;
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
 
-        data.forEach(app => {
-            html += `<tr>
-                    <td>${app.id}</td>
-                    <td>${app.name}</td>
-                    <td>${app.email}</td>
-                    <td>${app.phone || '-'}</td>
-                    <td>${app.serviceType || '-'}</td>
-                    <td class="status-${app.status.toLowerCase()}">${app.status}</td>
-                    <td>${new Date(app.createdAt).toLocaleDateString()}</td>
-                    <td>
-                        <button onclick="updateStatus(${app.id}, 'IN_PROGRESS')">В работу</button>
-                        <button onclick="updateStatus(${app.id}, 'COMPLETED')">Завершить</button>
-                    </td>
-                </tr>`;
-        });
+            return;
+        }
 
-        html += '</table>';
-        document.getElementById('applications').innerHTML = html;
-    }
+        document.getElementById('applications').innerHTML = `
+            <div class="loading">
+                Загрузка заявок...
+            </div>
+        `;
 
-    async function updateStatus(id, status) {
-        const response = await fetch(`${API_URL}/applications/${id}/status?status=${status}`, {
-            method: 'PATCH',
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
+        try {
 
-        if (response.ok) {
-            loadApplications();
-            alert('Статус обновлен!');
+            const response = await fetch(
+                `${API_URL}/applications`,
+                {
+                    method: 'GET',
+
+                    headers: {
+                        'Authorization':
+                            `Bearer ${token}`,
+
+                        'Accept':
+                            'application/json'
+                    }
+                }
+            );
+
+            if (response.status === 401) {
+                logout();
+                return;
+            }
+
+            if (response.status === 403) {
+                showError(
+                    'Доступ запрещён. У вашего аккаунта нет роли ADMIN.'
+                );
+
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error(
+                    `Ошибка сервера: ${response.status}`
+                );
+            }
+
+            const applications =
+                await response.json();
+
+            renderApplications(applications);
+
+        } catch (error) {
+
+            console.error(
+                'Loading applications:',
+                error
+            );
+
+            showError(
+                'Не удалось загрузить заявки. ' +
+                error.message
+            );
         }
     }
 
+
+    function renderApplications(applications) {
+
+        document.getElementById('count').textContent =
+            applications.length;
+
+
+        if (!applications.length) {
+
+            document.getElementById(
+                'applications'
+            ).innerHTML = `
+                <div class="empty">
+                    Заявок пока нет.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        let html = `
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Клиент</th>
+                        <th>Email</th>
+                        <th>Телефон</th>
+                        <th>Услуга</th>
+                        <th>Сообщение</th>
+                        <th>Статус</th>
+                        <th>Дата</th>
+                        <th>Действия</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+        `;
+
+
+        applications.forEach(app => {
+
+            const status =
+                app.status || 'NEW';
+
+
+            html += `
+                <tr>
+
+                    <td>
+                        #${escapeHtml(app.id)}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(app.name)}
+                    </td>
+
+                    <td>
+                        <a href="mailto:${escapeHtml(app.email)}">
+                            ${escapeHtml(app.email)}
+                        </a>
+                    </td>
+
+                    <td>
+                        ${escapeHtml(app.phone || '-')}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(app.serviceType || '-')}
+                    </td>
+
+                    <td>
+                        <div class="message">
+                            ${escapeHtml(app.message || '-')}
+                        </div>
+                    </td>
+
+                    <td>
+
+                        <span
+                            class="status status-${escapeHtml(status)}">
+
+                            ${escapeHtml(status)}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+                        ${app.createdAt
+                ? new Date(
+                    app.createdAt
+                ).toLocaleString('ru-RU')
+                : '-'}
+                    </td>
+
+                    <td>
+
+                        <div class="actions">
+
+                            <button
+                                class="btn btn-secondary"
+                                onclick="updateStatus(
+                                    ${app.id},
+                                    'IN_PROGRESS'
+                                )">
+                                В работу
+                            </button>
+
+                            <button
+                                class="btn btn-primary"
+                                onclick="updateStatus(
+                                    ${app.id},
+                                    'COMPLETED'
+                                )">
+                                Завершить
+                            </button>
+
+                            <button
+                                class="btn btn-danger"
+                                onclick="deleteApplication(
+                                    ${app.id}
+                                )">
+                                Удалить
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+            `;
+        });
+
+
+        html += `
+                </tbody>
+            </table>
+        `;
+
+
+        document.getElementById(
+            'applications'
+        ).innerHTML = html;
+    }
+
+
+    async function updateStatus(id, status) {
+
+        try {
+
+            const response = await fetch(
+                `${API_URL}/applications/${id}/status?status=${encodeURIComponent(status)}`,
+                {
+                    method: 'PATCH',
+
+                    headers: {
+                        'Authorization':
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+            if (response.status === 401) {
+                logout();
+                return;
+            }
+
+
+            if (response.status === 403) {
+
+                showError(
+                    'Недостаточно прав.'
+                );
+
+                return;
+            }
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `Ошибка: ${response.status}`
+                );
+            }
+
+
+            await loadApplications();
+
+        } catch (error) {
+
+            console.error(
+                'Update status:',
+                error
+            );
+
+            showError(
+                'Не удалось изменить статус.'
+            );
+        }
+    }
+
+
+    async function deleteApplication(id) {
+
+        if (!confirm(
+            `Удалить заявку #${id}?`
+        )) {
+            return;
+        }
+
+
+        try {
+
+            const response = await fetch(
+                `${API_URL}/applications/${id}`,
+                {
+                    method: 'DELETE',
+
+                    headers: {
+                        'Authorization':
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+            if (response.status === 401) {
+                logout();
+                return;
+            }
+
+
+            if (response.status === 403) {
+
+                showError(
+                    'Недостаточно прав.'
+                );
+
+                return;
+            }
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `Ошибка: ${response.status}`
+                );
+            }
+
+
+            await loadApplications();
+
+        } catch (error) {
+
+            console.error(
+                'Delete application:',
+                error
+            );
+
+            showError(
+                'Не удалось удалить заявку.'
+            );
+        }
+    }
+
+
+    document
+        .getElementById('logoutButton')
+        .addEventListener(
+            'click',
+            logout
+        );
+
+
+    document
+        .getElementById('refreshButton')
+        .addEventListener(
+            'click',
+            loadApplications
+        );
+
+
     loadApplications();
+
 </script>
+
 </body>
 </html>

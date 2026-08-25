@@ -23,7 +23,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-
+import org.springframework.http.HttpMethod;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -41,8 +41,15 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .authorizeHttpRequests(auth -> auth
+
+                        // =========================
+                        // Публичные страницы
+                        // =========================
+
                         .requestMatchers(
                                 "/",
                                 "/*.html",
@@ -56,9 +63,9 @@ public class SecurityConfig {
                                 "/index2.html",
                                 "/test_auth.html",
                                 "/*.css",
+                                "/*.js",
                                 "/style.css",
                                 "/animations.css",
-                                "/*.js",
                                 "/main.js",
                                 "/favicon.ico",
                                 "/favicon.svg",
@@ -67,21 +74,69 @@ public class SecurityConfig {
                                 "/js/**",
                                 "/static/**"
                         ).permitAll()
+
+                        // Swagger
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**",
                                 "/api-docs/**"
                         ).permitAll()
+
                         .requestMatchers("/h2-console/**").permitAll()
+
+                        // =========================
+                        // Авторизация
+                        // =========================
+
                         .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/**").permitAll()
+
+                        // =========================
+                        // Создание заявки доступно всем
+                        // =========================
+
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/v1/applications"
+                        ).permitAll()
+
+                        // =========================
+                        // Публичное получение данных
+                        // =========================
+
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/v1/services/**",
+                                "/api/v1/projects/**",
+                                "/api/v1/posts/**"
+                        ).permitAll()
+
+                        // =========================
+                        // Административные API
+                        // =========================
+
+                        .requestMatchers("/api/v1/applications/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers(
+                                "/api/v1/services/**",
+                                "/api/v1/projects/**",
+                                "/api/v1/posts/**"
+                        )
+                        .hasRole("ADMIN")
+
+                        // Остальное API только для авторизованных
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(
+                        jwtAuthenticationFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                );
 
-        http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
+        http.headers(headers ->
+                headers.frameOptions(frameOptions -> frameOptions.disable())
+        );
 
         return http.build();
     }

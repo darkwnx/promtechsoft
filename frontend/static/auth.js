@@ -106,18 +106,94 @@
 
     function updateAuthUI(loggedIn) {
         const box = byId('authButtons');
+
         if (!box) return;
+
         if (!loggedIn) {
-            box.innerHTML = '<button type="button" class="btn-sm btn-outline-sm" id="loginButton">Войти</button><button type="button" class="btn-sm btn-primary-sm" id="registerButton">Регистрация</button>';
+            box.innerHTML = `
+            <button
+                type="button"
+                class="btn-sm btn-outline-sm"
+                id="loginButton">
+                Войти
+            </button>
+
+            <button
+                type="button"
+                class="btn-sm btn-primary-sm"
+                id="registerButton">
+                Регистрация
+            </button>
+        `;
+
             byId('loginButton')?.addEventListener('click', openLogin);
             byId('registerButton')?.addEventListener('click', openRegister);
+
             return;
         }
+
         let user = {};
-        try { user = JSON.parse(localStorage.getItem('user') || '{}'); } catch (_) {}
-        const name = user.firstName || user.username || 'Пользователь';
-        box.innerHTML = `<span class="user-name">👤 ${String(name).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}</span><button type="button" class="btn-sm btn-outline-sm" id="logoutButton">Выйти</button>`;
-        byId('logoutButton')?.addEventListener('click', logout);
+
+        try {
+            user = JSON.parse(
+                localStorage.getItem('user') || '{}'
+            );
+        } catch (_) {
+            user = {};
+        }
+
+        const name =
+            user.firstName ||
+            user.username ||
+            'Пользователь';
+
+        const roles = Array.isArray(user.roles)
+            ? user.roles
+            : [];
+
+        const isAdmin = roles.includes('ROLE_ADMIN');
+
+        const safeName = String(name).replace(
+            /[&<>"']/g,
+            c => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            }[c])
+        );
+
+        box.innerHTML = `
+        <span class="user-name">
+            👤 ${safeName}
+        </span>
+
+        ${
+            isAdmin
+                ? `
+                    <a
+                        href="admin.html"
+                        class="btn-sm btn-primary-sm"
+                        id="adminButton">
+                        ⚙ Админ-панель
+                    </a>
+                  `
+                : ''
+        }
+
+        <button
+            type="button"
+            class="btn-sm btn-outline-sm"
+            id="logoutButton">
+            Выйти
+        </button>
+    `;
+
+        byId('logoutButton')?.addEventListener(
+            'click',
+            logout
+        );
     }
 
     function init() {
