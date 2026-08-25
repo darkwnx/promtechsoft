@@ -2,6 +2,7 @@ package com.promtechsoft.config;
 
 import com.promtechsoft.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +33,9 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserDetailsService userDetailsService;
 
+    @Value("${app.cors.allowed-origins:http://localhost:8080,http://127.0.0.1:8080,http://localhost:63342,http://127.0.0.1:63342,http://localhost:3000,http://127.0.0.1:3000}")
+    private String allowedOrigins;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -39,7 +43,6 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // ===== СТАТИЧЕСКИЕ РЕСУРСЫ =====
                         .requestMatchers(
                                 "/",
                                 "/*.html",
@@ -64,31 +67,20 @@ public class SecurityConfig {
                                 "/js/**",
                                 "/static/**"
                         ).permitAll()
-
-                        // ===== SWAGGER =====
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**",
                                 "/api-docs/**"
                         ).permitAll()
-
-                        // ===== H2 КОНСОЛЬ =====
                         .requestMatchers("/h2-console/**").permitAll()
-
-                        // ===== АУТЕНТИФИКАЦИЯ =====
                         .requestMatchers("/api/v1/auth/**").permitAll()
-
-                        // ===== ВСЕ API (ДЛЯ РАЗРАБОТКИ) =====
                         .requestMatchers("/api/v1/**").permitAll()
-
-                        // ===== ВСЕ ОСТАЛЬНЫЕ ЗАПРОСЫ =====
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        // Разрешаем фреймы для H2 консоли
         http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
 
         return http.build();
@@ -97,14 +89,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:8080",
-                "http://127.0.0.1:8080",
-                "http://localhost:63342",
-                "http://127.0.0.1:63342",
-                "http://localhost:3000",
-                "http://127.0.0.1:3000"
-        ));
+        configuration.setAllowedOrigins(Arrays.stream(allowedOrigins.split(","))
+                .map(String::trim)
+                .filter(origin -> !origin.isEmpty())
+                .toList());
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
