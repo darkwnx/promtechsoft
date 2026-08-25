@@ -1,0 +1,45 @@
+name: Repair authentication files
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restore index.html from known-good commit
+        run: |
+          git checkout 512176e5bec75bcfa427b3e90985ef9d0300d284 -- frontend/static/index.html
+
+      - name: Patch authentication API URL
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('frontend/static/index.html')
+          s = p.read_text(encoding='utf-8')
+          old = """    const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'\n        ? 'http://localhost:8080/api/v1'\n        : '/api/v1';"""
+          new = """    const API_URL = window.AUTH_API_URL || (\n        window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'\n            ? 'http://localhost:8080/api/v1'\n            : '/api/v1'\n    );"""
+          if old in s:
+              s = s.replace(old, new, 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Commit repair
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add frontend/static/index.html
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "fix: restore index and repair auth API URL"
+            git push
+          fi
