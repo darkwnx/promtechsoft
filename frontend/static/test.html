@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тест API</title>
+</head>
+<body>
+<h1>Тест подключения к бэкенду</h1>
+<button onclick="testAPI()">Проверить API</button>
+<div id="result"></div>
+
+<script>
+    async function testAPI() {
+        const result = document.getElementById('result');
+        result.innerHTML = '⏳ Проверка...';
+
+        try {
+            const response = await fetch('http://localhost:8080/api/v1/posts');
+            const data = await response.json();
+            result.innerHTML = '✅ API работает! Получено постов: ' + data.length;
+            console.log('Ответ API:', data);
+        } catch (error) {
+            result.innerHTML = '❌ Ошибка: ' + error.message;
+            console.error('Ошибка:', error);
+        }
+    }
+</script>
+</body>
+</html>

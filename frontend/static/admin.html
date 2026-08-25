@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Админ-панель</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; padding: 2rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
+        th, td { padding: 0.8rem; border: 1px solid #ddd; text-align: left; }
+        th { background: #0a1628; color: white; }
+        .status-new { color: #f39c12; font-weight: bold; }
+        .status-done { color: #00d4aa; font-weight: bold; }
+    </style>
+</head>
+<body>
+<h1>📋 Заявки</h1>
+<div id="applications"></div>
+
+<script>
+    const API_URL = 'http://localhost:8080/api/v1';
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        alert('Сначала войдите в систему');
+        window.location.href = '/';
+    }
+
+    async function loadApplications() {
+        const response = await fetch(`${API_URL}/applications`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!response.ok) {
+            alert('Нет доступа. Требуется роль ADMIN');
+            return;
+        }
+
+        const data = await response.json();
+
+        let html = `<table>
+                <tr>
+                    <th>ID</th>
+                    <th>Имя</th>
+                    <th>Email</th>
+                    <th>Телефон</th>
+                    <th>Услуга</th>
+                    <th>Статус</th>
+                    <th>Дата</th>
+                    <th>Действия</th>
+                </tr>`;
+
+        data.forEach(app => {
+            html += `<tr>
+                    <td>${app.id}</td>
+                    <td>${app.name}</td>
+                    <td>${app.email}</td>
+                    <td>${app.phone || '-'}</td>
+                    <td>${app.serviceType || '-'}</td>
+                    <td class="status-${app.status.toLowerCase()}">${app.status}</td>
+                    <td>${new Date(app.createdAt).toLocaleDateString()}</td>
+                    <td>
+                        <button onclick="updateStatus(${app.id}, 'IN_PROGRESS')">В работу</button>
+                        <button onclick="updateStatus(${app.id}, 'COMPLETED')">Завершить</button>
+                    </td>
+                </tr>`;
+        });
+
+        html += '</table>';
+        document.getElementById('applications').innerHTML = html;
+    }
+
+    async function updateStatus(id, status) {
+        const response = await fetch(`${API_URL}/applications/${id}/status?status=${status}`, {
+            method: 'PATCH',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (response.ok) {
+            loadApplications();
+            alert('Статус обновлен!');
+        }
+    }
+
+    loadApplications();
+</script>
+</body>
+</html>
