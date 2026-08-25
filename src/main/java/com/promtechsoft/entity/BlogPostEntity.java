@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "blog_posts")
@@ -41,6 +43,13 @@ public class BlogPostEntity {
 
     @Column(nullable = false)
     private Boolean published = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private CategoryEntity categoryEntity;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private Set<CommentEntity> comments = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {

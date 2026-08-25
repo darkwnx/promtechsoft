@@ -4,6 +4,7 @@ import com.promtechsoft.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -33,22 +34,27 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Разрешить доступ к фронтенду
-                        .requestMatchers("/", "/index.html", "/services.html", "/projects.html",
-                                "/blog.html", "/about.html", "/contacts.html",
-                                "/style.css", "/animations.css", "/favicon.svg",
-                                "/images/**", "/css/**", "/js/**", "/static/**").permitAll()
-                        // Разрешить Swagger
-                        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
-                        // Разрешить H2 консоль (если используете)
-                        .requestMatchers("/h2-console/**").permitAll()
-                        // Разрешить регистрацию и вход
-                        .requestMatchers("/api/v1/auth/**").permitAll()
-                        // Разрешить GET запросы к постам
-                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/posts/**").permitAll()
-                        // Все остальное требует аутентификации
-                        .anyRequest().authenticated()
-                )
+                // Фронтенд
+                .requestMatchers("/", "/index.html", "/services.html", "/projects.html",
+                        "/blog.html", "/about.html", "/contacts.html",
+                        "/style.css", "/animations.css", "/favicon.svg",
+                        "/images/**", "/css/**", "/js/**", "/static/**").permitAll()
+
+                // Swagger
+                .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
+
+                // H2
+                .requestMatchers("/h2-console/**").permitAll()
+
+                // Auth
+                .requestMatchers("/api/v1/auth/**").permitAll()
+
+                // Все API (для разработки)
+                .requestMatchers("/api/v1/**").permitAll()
+
+                // Остальное требует аутентификации
+                .anyRequest().authenticated()
+        )
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
