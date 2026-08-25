@@ -1,0 +1,44 @@
+name: Patch authentication frontend
+
+on:
+  push:
+    paths:
+      - 'frontend/static/auth.js'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch index.html
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          path = Path('frontend/static/index.html')
+          text = path.read_text(encoding='utf-8')
+
+          if 'src="auth.js"' not in text:
+              text = text.replace('</body>', '    <script src="auth.js"></script>\n</body>', 1)
+
+          pattern = re.compile(r'<script\\b[^>]*>.*?function\\s+openLogin\\s*\\(.*?</script>', re.S | re.I)
+          text2, count = pattern.subn('', text, count=1)
+          if count == 0:
+              # Keep the file intact if the old inline auth block cannot be identified.
+              text2 = text
+
+          path.write_text(text2, encoding='utf-8')
+          print(f'Inline auth block removed: {count}')
+
+      - name: Commit patch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add frontend/static/index.html
+          git diff --cached --quiet && exit 0
+          git commit -m 'fix: use dedicated auth.js for login and registration'
+          git push
