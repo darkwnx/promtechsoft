@@ -51,14 +51,7 @@ public class AuthService {
         var userDetails = userDetailsService.loadUserByUsername(user.getUsername());
         String token = jwtService.generateToken(userDetails);
 
-        return AuthResponse.builder()
-                .token(token)
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .roles(user.getRoles())
-                .build();
+        return toAuthResponse(user, token);
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -76,6 +69,16 @@ public class AuthService {
 
         log.info("User logged in: {}", request.getUsername());
 
+        return toAuthResponse(user, token);
+    }
+
+    public AuthResponse getCurrentUser(String username) {
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
+        return toAuthResponse(user, null);
+    }
+
+    private AuthResponse toAuthResponse(UserEntity user, String token) {
         return AuthResponse.builder()
                 .token(token)
                 .username(user.getUsername())
@@ -83,6 +86,7 @@ public class AuthService {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .roles(user.getRoles())
+                .createdAt(user.getCreatedAt())
                 .build();
     }
 }

@@ -161,6 +161,17 @@
             margin-right: 0.3rem;
         }
 
+        .auth-buttons .user-name-link {
+            text-decoration: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .auth-buttons .user-name-link:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
         .burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 5px; }
         .burger span { width: 25px; height: 2px; background: white; display: block; transition: var(--transition); }
         .burger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
@@ -780,7 +791,7 @@
             .clients-stats { grid-template-columns: repeat(2, 1fr); }
             .footer-grid { grid-template-columns: 1fr 1fr; }
 
-            .auth-buttons .user-name { display: none; }
+            .auth-buttons .user-name { display: inline; }
         }
 
         @media (max-width: 480px) {

@@ -156,12 +156,6 @@
             user.username ||
             'Пользователь';
 
-        const roles = Array.isArray(user.roles)
-            ? user.roles
-            : [];
-
-        const isAdmin = roles.includes('ROLE_ADMIN');
-
         const safeName = String(name).replace(
             /[&<>"']/g,
             c => ({
@@ -174,23 +168,13 @@
         );
 
         box.innerHTML = `
-        ${
-            isAdmin
-                ? `
-                    <a
-                        href="admin.html"
-                        class="user-name user-name-link"
-                        id="adminButton"
-                        title="Открыть профиль администратора">
-                        👤 ${safeName}
-                    </a>
-                  `
-                : `
-                    <span class="user-name">
-                        👤 ${safeName}
-                    </span>
-                  `
-        }
+        <a
+            href="profile.html"
+            class="user-name user-name-link"
+            id="profileButton"
+            title="Открыть профиль">
+            👤 ${safeName}
+        </a>
 
         <button
             type="button"

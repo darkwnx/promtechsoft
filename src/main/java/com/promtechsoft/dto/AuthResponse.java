@@ -3,6 +3,7 @@ package com.promtechsoft.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -20,4 +21,6 @@ public class AuthResponse {
     private String lastName;
 
     private Set<String> roles;
+
+    private LocalDateTime createdAt;
 }

@@ -58,6 +58,8 @@ public class SecurityConfig {
                                 "/blog.html",
                                 "/about.html",
                                 "/contacts.html",
+                                "/profile.html",
+                                "/admin.html",
                                 "/test.html",
                                 "/index2.html",
                                 "/test_auth.html",
@@ -74,10 +76,9 @@ public class SecurityConfig {
                                 "/static/**"
                         ).permitAll()
 
-                        // Админ-панель: сам HTML-файл защищён сервером.
-                        // Проверка только в JavaScript недостаточна, потому что
-                        // пользователь может открыть /admin.html напрямую.
-                        .requestMatchers("/admin.html").hasRole("ADMIN")
+                        // HTML админки и профиля отдаём как статику: JWT лежит
+                        // в localStorage, браузер не отправит его при переходе по ссылке.
+                        // Доступ к данным закрыт на уровне API.
 
                         // Swagger
                         .requestMatchers(
@@ -93,7 +94,7 @@ public class SecurityConfig {
                         // Авторизация
                         // =========================
 
-                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/auth/register", "/api/v1/auth/login", "/api/v1/auth/logout").permitAll()
 
                         // =========================
                         // Создание заявки доступно всем

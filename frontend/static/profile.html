@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль — ПромТехСофт</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #f5f7fa;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #0a1628;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button, .btn {
+            border: none;
+            border-radius: 8px;
+            padding: 9px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            font-family: inherit;
+        }
+
+        .btn-primary { background: #00d4aa; color: #062019; font-weight: 600; }
+        .btn-secondary { background: #334155; color: white; }
+        .btn-danger { background: #ef4444; color: white; }
+
+        .container {
+            max-width: 720px;
+            margin: 32px auto;
+            padding: 0 20px 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: #0a1628;
+            color: #00d4aa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .display-name {
+            margin: 0 0 6px;
+            font-size: 26px;
+        }
+
+        .muted {
+            color: #64748b;
+            margin: 0 0 24px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .row:last-child { border-bottom: none; }
+
+        .label {
+            color: #64748b;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .value {
+            font-weight: 600;
+            text-align: right;
+            word-break: break-word;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #ecfdf5;
+            color: #047857;
+            border-radius: 999px;
+            padding: 4px 10px;
+            font-size: 13px;
+            margin-left: 6px;
+        }
+
+        .badge.admin {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <h1>Профиль</h1>
+    <div class="header-actions">
+        <a href="index.html" class="btn btn-secondary">← На сайт</a>
+        <a href="admin.html" class="btn btn-primary" id="adminLink" hidden>Админ-панель</a>
+        <button class="btn btn-danger" id="logoutButton" type="button">Выйти</button>
+    </div>
+</header>
+
+<main class="container">
+    <div id="error"></div>
+    <div id="profile" class="card">
+        <div class="loading">Загрузка профиля...</div>
+    </div>
+</main>
+
+<script>
+    'use strict';
+
+    const API_URL = window.AUTH_API_URL || (
+        window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:8080/api/v1'
+            : '/api/v1'
+    );
+
+    const token = localStorage.getItem('token');
+
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function isAdmin(roles) {
+        return Array.isArray(roles) && roles.some(role => role === 'ROLE_ADMIN' || role === 'ADMIN');
+    }
+
+    function roleLabel(role) {
+        if (role === 'ROLE_ADMIN' || role === 'ADMIN') return 'Администратор';
+        if (role === 'ROLE_USER' || role === 'USER') return 'Пользователь';
+        return role;
+    }
+
+    function initials(user) {
+        const first = (user.firstName || '').trim();
+        const last = (user.lastName || '').trim();
+        if (first || last) return (first.charAt(0) + last.charAt(0)).toUpperCase() || '?';
+        return String(user.username || '?').charAt(0).toUpperCase();
+    }
+
+    function formatDate(value) {
+        if (!value) return '—';
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return '—';
+        return date.toLocaleString('ru-RU', {
+            day: '2-digit', month: 'long', year: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+        });
+    }
+
+    async function logout() {
+        try {
+            await fetch(`${API_URL}/auth/logout`, { method: 'POST', credentials: 'include' });
+        } catch (_) { /* ignore */ }
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = 'index.html';
+    }
+
+    function render(user) {
+        const fullName = [user.firstName, user.lastName].filter(Boolean).join(' ')
+            || user.username
+            || 'Пользователь';
+        const roles = Array.isArray(user.roles) ? user.roles : [];
+        const admin = isAdmin(roles);
+
+        document.getElementById('adminLink').hidden = !admin;
+
+        document.getElementById('profile').innerHTML = `
+            <div class="avatar">${escapeHtml(initials(user))}</div>
+            <h2 class="display-name">${escapeHtml(fullName)}</h2>
+            <p class="muted">@${escapeHtml(user.username || '')}</p>
+            <div class="grid">
+                <div class="row">
+                    <span class="label">Email</span>
+                    <span class="value">${escapeHtml(user.email || '—')}</span>
+                </div>
+                <div class="row">
+                    <span class="label">Имя пользователя</span>
+                    <span class="value">${escapeHtml(user.username || '—')}</span>
+                </div>
+                <div class="row">
+                    <span class="label">Имя</span>
+                    <span class="value">${escapeHtml(user.firstName || '—')}</span>
+                </div>
+                <div class="row">
+                    <span class="label">Фамилия</span>
+                    <span class="value">${escapeHtml(user.lastName || '—')}</span>
+                </div>
+                <div class="row">
+                    <span class="label">Роль</span>
+                    <span class="value">${roles.map(role =>
+                        `<span class="badge${isAdmin([role]) ? ' admin' : ''}">${escapeHtml(roleLabel(role))}</span>`
+                    ).join('') || '—'}</span>
+                </div>
+                <div class="row">
+                    <span class="label">Дата регистрации</span>
+                    <span class="value">${escapeHtml(formatDate(user.createdAt))}</span>
+                </div>
+            </div>
+        `;
+    }
+
+    async function loadProfile() {
+        if (!token) {
+            window.location.href = 'index.html';
+            return;
+        }
+
+        let stored = {};
+        try {
+            stored = JSON.parse(localStorage.getItem('user') || '{}');
+        } catch (_) {
+            stored = {};
+        }
+
+        if (stored.username) render(stored);
+
+        try {
+            const response = await fetch(`${API_URL}/auth/me`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.status === 401 || response.status === 403) {
+                await logout();
+                return;
+            }
+
+            if (!response.ok) throw new Error('Не удалось загрузить профиль');
+
+            const data = await response.json();
+            localStorage.setItem('user', JSON.stringify({ ...stored, ...data, token }));
+            render(data);
+        } catch (error) {
+            if (!stored.username) {
+                document.getElementById('error').innerHTML =
+                    `<div class="error">${escapeHtml(error.message || 'Ошибка загрузки профиля')}</div>`;
+            }
+        }
+    }
+
+    document.getElementById('logoutButton').addEventListener('click', logout);
+    loadProfile();
+</script>
+</body>
+</html>

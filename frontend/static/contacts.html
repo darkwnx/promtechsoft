@@ -122,6 +122,15 @@
             font-size: 0.85rem;
             margin-right: 0.5rem;
         }
+        .auth-buttons .user-name-link {
+            text-decoration: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .auth-buttons .user-name-link:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
 
         /* СУПЕР-КОМПАКТНЫЙ HERO */
         .page-header {
@@ -650,7 +659,7 @@
             .form-grid { grid-template-columns: 1fr; }
             .form-grid .full-width { grid-column: 1; }
 
-            .auth-buttons .user-name { display: none; }
+            .auth-buttons .user-name { display: inline; }
             .urgent-call { bottom: 90px; right: 20px; }
             .urgent-call-btn { width: 55px; height: 55px; font-size: 1.5rem; }
             .cta-section h2 { font-size: 1.4rem; }
@@ -1310,8 +1319,10 @@
 
         if (isLoggedIn) {
             const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const name = String(user.firstName || user.username || 'Пользователь')
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             authButtons.innerHTML = `
-            <span class="user-name">👤 ${user.firstName || user.username}</span>
+            <a href="profile.html" class="user-name user-name-link" title="Открыть профиль">👤 ${name}</a>
             <button class="btn btn-sm btn-outline" onclick="logout()">Выйти</button>
         `;
         } else {
